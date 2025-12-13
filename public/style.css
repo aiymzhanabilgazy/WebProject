@@ -1,0 +1,217 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #e8e0d8;
+    font-family: "Helvetica", "Arial", sans-serif;
+    color: #3f3332;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: #d6c7bd;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+.nav-left {
+    display: flex;
+    gap: 20px;
+}
+.nav-left a {
+    text-decoration: none;
+    color: #3f3332;
+    font-size: 18px;
+}
+.logo {
+    position: absolute;
+    left: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    color: #3f3332;
+    white-space: nowrap;
+}
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.menu-dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #3f3332;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.dropbtn:hover {
+    opacity: 0.7;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: #f1e6dc;
+    min-width: 160px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    padding: 10px 0;
+}
+
+.dropdown-content a {
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #3f3332;
+}
+
+.dropdown-content a:hover {
+    background: #e3d5c8;
+}
+
+.menu-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.banner img {
+    width: 96%;
+    height: 300px;
+    margin: 20px auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.pins {
+    padding: 30px;
+    column-count: 4;
+    column-gap: 18px;
+}
+
+.pin {
+    break-inside: avoid;
+    margin-bottom: 18px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pin:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+}
+
+.pin img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.show-more-container {
+    text-align: center;
+    margin: 30px 0 50px 0;
+}
+
+.show-more {
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: none;
+    background-color: #d6c7bd;
+    color: #3f3332;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.show-more:hover {
+    background-color: #c7b4a8;
+    transform: scale(1.05);
+}
+.pin-info {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 12px;
+}
+
+.author {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: #4a3f3f;
+}
+
+.story {
+    margin: 8px 0 12px 0; 
+    font-size: 14px;
+    line-height: 1.4;
+    color: #5a4e4e;
+}
+.location{
+    margin: 8px 0 12px 0;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #5a4e4e;
+}
+.pin-actions ion-icon {
+    font-size: 22px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #5a4e4e;
+    transition: 0.2s ease;
+}
+.pin-actions ion-icon:hover {
+    transform: scale(1.25);
+    opacity: 0.6;
+}
+
+.footer {
+    background: #d6c7bd;
+    padding: 40px 20px;
+    margin-top: 40px;
+    text-align: center;
+    color: #3f3332;
+}
+
+.footer-content {
+    max-width: 900px;
+    margin: auto;
+}
+
+.footer-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.footer-links {
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: #3f3332;
+    font-size: 16px;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 0.6;
+}
+
+.footer-credit {
+    font-size: 14px;
+    opacity: 0.7;
+}
