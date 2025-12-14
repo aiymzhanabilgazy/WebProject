@@ -56,29 +56,31 @@ Follow these steps to run the project locally:
 1. Clone the repository:
 git clone https://github.com/aiymzhanabilgazy/WebProject.git
 2. Navigate into to the project folder :
-cd WebProject
+- cd WebProject
 3. Install dependencies and start the server:
-npm install
-node server.js
+- npm install
+- node server.js
 4. Open the website:
 http://localhost:3000
 
 --- 
 
 ## Project Structure
-
 WEBPROJECT/
 ├── images/
+│
 ├── public/
-│    ├── style.css
-│    ├── about.css
-│    └── creativity.css
-     └── locations.css
+│   ├── style.css
+│   ├── about.css
+│   ├── creativity.css
+│   └── locations.css
+│
 ├── views/
-     ├── creativity.html
-     ├── locations.html
-│    ├── index.html
-│    └── about.html
+│   ├── index.html
+│   ├── about.html
+│   ├── creativity.html
+│   └── locations.html
+│
 ├── server.js
 ├── package.json
 └── README.md
