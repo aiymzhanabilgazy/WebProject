@@ -1,0 +1,73 @@
+.page-header {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.page-header h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+    color: #3f3332;
+}
+
+.page-header p {
+    font-size: 17px;
+    color: #5a4f4d;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* PINS GRID */
+.pins {
+    padding: 30px;
+    column-count: 4;
+    column-gap: 18px;
+}
+
+@media (max-width: 1100px) {
+    .pins { column-count: 3; }
+}
+
+@media (max-width: 768px) {
+    .pins { column-count: 2; }
+}
+
+@media (max-width: 480px) {
+    .pins { column-count: 1; }
+}
+
+.pin {
+    break-inside: avoid;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pin:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.16);
+}
+
+.pin img {
+    width: 100%;
+    display: block;
+}
+
+/* PIN INFO */
+.pin-info {
+    padding: 14px 16px;
+}
+
+.author {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.story {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #5a4f4d;
+}
