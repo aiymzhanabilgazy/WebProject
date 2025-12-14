@@ -66,25 +66,26 @@ http://localhost:3000
 --- 
 
 ## Project Structure
+```
 WEBPROJECT/
 ├── images/
 │
 ├── public/
-│   ├── style.css
-│   ├── about.css
-│   ├── creativity.css
-│   └── locations.css
+│ ├── style.css
+│ ├── about.css
+│ ├── creativity.css
+│ └── locations.css
 │
 ├── views/
-│   ├── index.html
-│   ├── about.html
-│   ├── creativity.html
-│   └── locations.html
+│ ├── index.html
+│ ├── about.html
+│ ├── creativity.html
+│ └── locations.html
 │
 ├── server.js
 ├── package.json
 └── README.md
-
+```
 --- 
 
 ## Future Roadmap 
