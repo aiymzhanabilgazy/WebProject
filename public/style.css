@@ -82,64 +82,124 @@ body {
     display: block;
 }
 
+/* ========================= */
+/* BANNER SECTION */
+/* ========================= */
+
+/* ========================= */
+/* BANNER */
+/* ========================= */
+
 .banner {
     position: relative;
-    margin: 40px auto;
     max-width: 1200px;
+    margin: 40px auto;
     border-radius: 26px;
     overflow: hidden;
 }
 
 .banner img {
     width: 100%;
-    height: 420px;
+    height: 520px;
     object-fit: cover;
     display: block;
 }
 
-/* текст + кнопка */
-.banner-text {
+.banner::after {
+    content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #ffffff;
-    padding: 0 20px;
+    inset: 0;
+    background: rgba(0,0,0,0.25);
+    z-index: 1;
 }
 
-.banner-text h1 {
-    font-size: 48px;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
+/* ========================= */
+/* CONTENT INSIDE BANNER */
+/* ========================= */
+
+.banner-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px;
+    z-index: 2;
 }
 
-.banner-text p {
-    font-size: 18px;
-    opacity: 0.9;
-    margin-bottom: 28px;
+/* LEFT CARD */
+.project-info {
+    max-width: 520px;
+    background: rgba(246, 239, 232, 0.95);
+    padding: 40px;
+    border-radius: 22px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
 }
 
-/* WOW BUTTON */
-.banner-btn {
-    display: inline-block;
-    padding: 14px 40px;
-    background: #ffffff;
-    color: #c7a9b0;
-    border-radius: 40px;
+.project-info h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #3f3332;
+}
+
+.project-description {
     font-size: 16px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    transition: all 0.35s ease;
+    line-height: 1.6;
+    color: #4a3f3f;
+    margin-bottom: 22px;
 }
 
-/* hover эффект */
-.banner-btn:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 35px rgba(0,0,0,0.35);
-    background: #f6eef0;
+.project-info h3 {
+    margin-top: 22px;
+    font-size: 20px;
+    color: #3f3332;
 }
+
+.project-info p,
+.project-info li {
+    font-size: 15px;
+    color: #5a4e4e;
+}
+
+.project-info ul {
+    padding-left: 18px;
+}
+
+/* RIGHT CARDS */
+.banner-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.banner-card {
+    background: rgba(255,255,255,0.95);
+    padding: 22px 30px;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #3f3332;
+    text-align: center;
+    min-width: 260px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    transition: 0.3s ease;
+}
+
+.banner-card:hover {
+    transform: translateY(-6px);
+}
+
+.banner-card h3 {
+    margin-bottom: 6px;
+    font-size: 20px;
+}
+
+.banner-card span {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+
+
 
 .pins {
     padding: 30px;

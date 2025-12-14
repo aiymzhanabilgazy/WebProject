@@ -2,29 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Creativity | InspireMe</title>
+    <title>Locations | InspireMe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- main styles -->
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/creativity.css">
+    <link rel="stylesheet" href="/locations.css">
 
-    <!-- icons -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="navbar">
     <div class="nav-left">
         <a href="/">Home</a>
         <a href="/about">About</a>
     </div>
 
-    <div class="logo">
-        Inspire Me | Creativity & Locations
-    </div>
+    <div class="logo">Inspire Me | Creativity & Locations</div>
 
     <div class="nav-right">
         <div class="menu-dropdown">
@@ -37,38 +32,27 @@
     </div>
 </header>
 
-<!-- MAIN -->
 <main>
 
-    <!-- PAGE HEADER -->
-    <section class="creativity-header">
-        <h1>Creativity Space</h1>
-        <p>
-            A place to share creative ideas, academic projects,
-            study templates and inspiration.
-        </p>
+    <!-- HEADER -->
+    <section class="locations-header">
+        <h1>Cozy Locations ☕</h1>
+        <p>Places to relax, study, chat and enjoy the atmosphere</p>
     </section>
 
-    <!-- FILTERS (future logic) -->
-    <section class="filters">
-        <button class="filter active">All</button>
-        <button class="filter">Study</button>
-        <button class="filter">Projects</button>
-        <button class="filter">Startups</button>
-        <button class="filter">Templates</button>
-    </section>
+    <!-- LOCATION PINS -->
+    <section class="pins locations-pins">
 
-    <!-- CREATIVE PINS -->
-    <section class="pins creativity-pins">
-
-        <div class="pin">
-            <img src="/images/study.jpg" alt="study project">
+        <div class="pin location-pin">
+            <img src="/images/cafe1.jpg">
             <div class="pin-info">
-                <p class="author">Student Project</p>
+                <p class="author">Bella Café</p>
                 <p class="story">
-                    Personal study planner template designed for
-                    university students to organize deadlines.
+                    Cozy place with warm lights and calm music.
+                    Perfect for evening talks 
                 </p>
+                <p class="location">📍 Bella Café, city center</p>
+
                 <div class="pin-actions">
                     <ion-icon name="heart-outline"></ion-icon>
                     <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
@@ -77,14 +61,15 @@
             </div>
         </div>
 
-        <div class="pin">
-            <img src="/images/startup.jpg" alt="startup idea">
+        <div class="pin location-pin">
+            <img src="/images/cafe2.jpg">
             <div class="pin-info">
-                <p class="author">Startup Idea</p>
+                <p class="author">Urban Coffee</p>
                 <p class="story">
-                    Mobile app concept that helps students track
-                    productivity and motivation habits.
+                    Quiet café for studying and working with laptop 
                 </p>
+                <p class="location">📍 Urban Coffee</p>
+
                 <div class="pin-actions">
                     <ion-icon name="heart-outline"></ion-icon>
                     <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
@@ -93,14 +78,15 @@
             </div>
         </div>
 
-        <div class="pin">
-            <img src="/images/design.jpg" alt="design work">
+        <div class="pin location-pin">
+            <img src="/images/cafe3.jpg">
             <div class="pin-info">
-                <p class="author">Design Practice</p>
+                <p class="author">Bloom Space</p>
                 <p class="story">
-                    Minimalist UI sketches created while learning
-                    web design fundamentals.
+                    Aesthetic interior, plants and soft light
                 </p>
+                <p class="location">📍 Bloom Space</p>
+
                 <div class="pin-actions">
                     <ion-icon name="heart-outline"></ion-icon>
                     <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
@@ -113,18 +99,15 @@
 
 </main>
 
-<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-content">
         <p class="footer-title">Inspire Me ✧ Creativity & Locations</p>
-
         <div class="footer-links">
             <a href="/">Home</a>
             <a href="/about">About</a>
             <a href="/creativity">Creativity</a>
             <a href="/locations">Locations</a>
         </div>
-
         <p class="footer-credit">Assignment 1 — Week 1</p>
     </div>
 </footer>
