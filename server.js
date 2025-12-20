@@ -3,8 +3,9 @@ const app = express();
 
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
-app.use(express.urlencoded({extended:true}))
-app.post('/submit',(req,res)=>{
+app.use(express.urlencoded({extended:true}));
+
+app.post('/contact',(req,res)=>{
   const{name,email,message}=req.body;
 
   res.send (`
@@ -12,7 +13,7 @@ app.post('/submit',(req,res)=>{
     <p>Name:${name}</p>
     <p>Email:${email}</p>
     <p>Message:${message}</p>
-    <a href="/contact.html">Back</a>
+    <a href='/contact'>Back</a>
     `);
 });
 app.get('/', (req, res) => {
@@ -30,6 +31,14 @@ app.get('/locations', (req, res) => {
 app.get('/contact', (req, res) => {
   res.sendFile(__dirname + '/views/contact.html');
 });
+
+app.use((req, res) => {
+  res.status(404).send(`
+    <h2>404 - Page Not Found</h2>
+    <a href="/">Go Home</a>
+  `);
+});
+
 
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
