@@ -80,11 +80,13 @@ WEBPROJECT/
 │ ├── index.html
 │ ├── about.html
 │ ├── creativity.html
+│ ├── contact.html
 │ └── locations.html
 │
 ├── server.js
 ├── package.json
 └── README.md
+└── data.json
 ```
 --- 
 
@@ -140,3 +142,33 @@ We aim to implement user registration and login, so each person can have their o
 Additional features may include a large “+ Add” button for uploading posts, new navigation pages like Settings or Privacy Policy, and improved search tools to find creativity and locations more easily.
 
 These planned features will help InspireMe grow into a more personalized and inspiring platform for all users.
+
+## Assignment 1 – Part 2: Routing and Forms
+
+In this part of the assignment, Express.js was used to implement GET and POST routes.
+
+### Implemented Routes
+- GET `/` – Home page with navigation
+- GET `/about` – Information about the project
+- GET `/contact` – Contact page with HTML form
+- POST `/contact` – Handles form submission and processes user input
+
+### Contact Form
+The contact page contains a form with the following fields:
+- Name
+- Email
+- Message
+
+The form sends data to the backend using a POST request.  
+Form data is processed using `req.body` and logged to the console to demonstrate correct form handling.
+
+### Middleware
+- `express.urlencoded({ extended: true })` is used to parse form data.
+- A custom 404 page is implemented for unknown routes.
+
+
+## Contact Page
+
+We added a Contact page to collect feedback from users.  
+The page contains a form with fields for name, email, and message.  
+This allows users to send their ideas, suggestions, or feedback directly to the backend.
