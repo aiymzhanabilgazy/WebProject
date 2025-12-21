@@ -6,11 +6,12 @@ app.use('/images', express.static('images'));
 app.use(express.urlencoded({extended:true}));
 
 app.post('/contact',(req,res)=>{
-  const{name,email,message}=req.body;
+  const{fname,lname,email,message}=req.body;
 
   res.send (`
     <h2>Form submitted</h2>
-    <p>Name:${name}</p>
+    <p>First Name:${fname}</p>
+    <p>Last Name:${lname}</p>
     <p>Email:${email}</p>
     <p>Message:${message}</p>
     <a href='/contact'>Back</a>
