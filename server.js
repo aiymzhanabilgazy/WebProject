@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require ('fs');
 const app = express();
 
 app.use(express.static('public'));
@@ -8,15 +9,38 @@ app.use(express.urlencoded({extended:true}));
 app.post('/contact',(req,res)=>{
   const{fname,lname,email,message}=req.body;
 
-  res.send (`
-    <h2>Form submitted</h2>
-    <p>First Name:${fname}</p>
-    <p>Last Name:${lname}</p>
-    <p>Email:${email}</p>
-    <p>Message:${message}</p>
-    <a href='/contact'>Back</a>
-    `);
-});
+  const formData = {
+    firstName: fname,
+    lastName: lname,
+    email: email,
+    message: message,
+    date: new Date().toISOString()
+  };
+  fs.readFile('data.json', 'utf8', (err, data) => {
+    let entries = [];
+    
+    if (!err && data) {
+      entries = JSON.parse(data);
+    }
+    entries.push(newEntry);
+    
+    fs.writeFile('data.json', JSON.stringify(formData, null, 2),
+    (err) => {
+      if (err) {
+        res.send('<h2>Error saving data</h2>');
+      } else {
+        res.send(`
+          <h2>Form submitted successfully</h2>
+          <p>First Name: ${fname}</p>
+          <p>Last Name: ${lname}</p>
+          <p>Email: ${email}</p>
+          <p>Message: ${message}</p>
+          <a href="/contact">Back</a>`);
+        }
+      }
+     );
+    });
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
