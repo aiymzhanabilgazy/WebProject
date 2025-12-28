@@ -158,7 +158,17 @@ Displays the main page of the website with navigation links.
 Note: Not all routes are linked from the home page.  
 Routes such as `/item/:id` and `/api/info` are intended to be accessed directly via the browser URL for demonstration purposes.
 
-2. Item Route (/item/:id)
+2.Search Route (/search)
+Example URLs:
+http://localhost:3000/search?q=creativity
+http://localhost:3000/search?q=locations
+http://localhost:3000/search?q=inspiration
+Description:
+This route demonstrates the use of query parameters in Express.js.
+The search keyword is passed through the URL using the q parameter and is processed on the server side.
+If the query parameter is missing or empty, the server returns a 400 Bad Request response.
+
+3. Item Route (/item/:id)
 Example URL:
 http://localhost:3000/item/1
 http://localhost:3000/item/abc
@@ -166,7 +176,16 @@ Description:
 This route demonstrates the use of route parameters in Express.js.
 The id value is extracted directly from the URL and displayed on the page.
 
-3. API Information Route (/api/info)
+4.Contact Route (/contact)
+URL:
+http://localhost:3000/contact
+Description:
+This route demonstrates handling POST requests in Express.js.
+The contact page contains a form where users can submit their first name, last name, email, and message.
+Submitted form data is processed using req.body and stored in a JSON file on the server.
+If any required field is missing, the server returns a 400 Bad Request response.
+
+5. API Information Route (/api/info)
 URL: http://localhost:3000/api/info
 Description:
 This route returns project information in JSON format and demonstrates how Express.js handles API responses.

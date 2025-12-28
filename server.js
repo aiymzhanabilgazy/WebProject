@@ -1,26 +1,35 @@
 const express = require('express');
 const fs = require('fs');
-const app = express();
 const path = require('path');
 
+const app = express();
 
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
-
-app.use(express.urlencoded({ extended: true })); //middleware
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`); //custom logger middleware(HTTP method+URL)
+  console.log(`${req.method} ${req.url}`);
   next();
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views','index.html'));
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
+app.get('/search', (req, res) => {
+  const { q } = req.query;
 
+  if (!q) {
+    return res.status(400).send('<h2>400 - Missing search query</h2>');
+  }
 
-
+  res.send(`
+    <h2>Search Page</h2>
+    <p>You searched for: <strong>${q}</strong></p>
+    <a href="/">Back to Home</a>
+  `);
+});
 
 app.get('/item/:id', (req, res) => {
   const { id } = req.params;
@@ -32,15 +41,11 @@ app.get('/item/:id', (req, res) => {
   `);
 });
 
-
-
-
-
 app.post('/contact', (req, res) => {
   const { fname, lname, email, message } = req.body;
 
   if (!fname || !lname || !email || !message) {
-    return res.status(400).send('<h2>400 - All fields are required</h2>'); //validation
+    return res.status(400).send('<h2>400 - All fields are required</h2>');
   }
 
   const formData = {
@@ -89,8 +94,6 @@ app.post('/contact', (req, res) => {
   });
 });
 
-
-
 app.get('/api/info', (req, res) => {
   res.json({
     project: 'Assignment 2',
@@ -116,9 +119,8 @@ app.get('/contact', (req, res) => {
   res.sendFile(__dirname + '/views/contact.html');
 });
 
-//404 handling
 app.use((req, res) => {
-  res.status(404).send(` 
+  res.status(404).send(`
     <h2>404 - Page Not Found</h2>
     <a href="/">Go Home</a>
   `);
