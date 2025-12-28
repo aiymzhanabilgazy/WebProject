@@ -98,9 +98,9 @@ Week 2 → Forms + POST route
 - Add form to create new posts
 - Send form data to backend
 
-Week 3 → MongoDB + Database
-- Connect MongoDB
-- Store Creativity & Locations posts in database
+Week 3 → Server site handling 
+- add api resourses and route parameters
+- Store a contact form data to the JSON.file
 
 Week 4 → REST API
 - Implement GET/POST routes for posts
@@ -143,15 +143,33 @@ Additional features may include a large “+ Add” button for uploading posts, 
 
 These planned features will help InspireMe grow into a more personalized and inspiring platform for all users.
 
-## Assignment 1 – Part 2: Routing and Forms
+## Assignment 2 – Part 1: Server site Request Handling in Express.js
+### Middleware
+- `express.urlencoded({ extended: true })` is used to parse form data.
+- `app.use((req, res, next) => {console.log(`${req.method} ${req.url}`); next();});` is a custom logger middleware that prints HTTP method and request URL for every request.
+- A custom 404 page is implemented for unknown routes.
 
-In this part of the assignment, Express.js was used to implement GET and POST routes.
+This project demonstrates server-side request handling using Express.js. Some routes are designed to be tested directly via the browser URL, as they illustrate the use of route parameters and API responses.
 
-### Implemented Routes
-- GET `/` – Home page with navigation
-- GET `/about` – Information about the project
-- GET `/contact` – Contact page with HTML form
-- POST `/contact` – Handles form submission and processes user input
+1. Home Page (/)
+URL: http://localhost:3000/
+Description:
+Displays the main page of the website with navigation links.
+Note: Not all routes are linked from the home page.  
+Routes such as `/item/:id` and `/api/info` are intended to be accessed directly via the browser URL for demonstration purposes.
+
+2. Item Route (/item/:id)
+Example URL:
+http://localhost:3000/item/1
+http://localhost:3000/item/abc
+Description:
+This route demonstrates the use of route parameters in Express.js.
+The id value is extracted directly from the URL and displayed on the page.
+
+3. API Information Route (/api/info)
+URL: http://localhost:3000/api/info
+Description:
+This route returns project information in JSON format and demonstrates how Express.js handles API responses.
 
 ### Contact Form
 The contact page contains a form with the following fields:
@@ -161,11 +179,6 @@ The contact page contains a form with the following fields:
 
 The form sends data to the backend using a POST request.  
 Form data is processed using `req.body` and logged to the console to demonstrate correct form handling.
-
-### Middleware
-- `express.urlencoded({ extended: true })` is used to parse form data.
-- A custom 404 page is implemented for unknown routes.
-
 
 ## Contact Page
 
