@@ -1,0 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========================= */
+/* PAGE BACKGROUND */
+/* ========================= */
+body {
+    background: #FDF5F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+    color: #2F1B1F;
+}
+
+.auth-back {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: #A30015;
+    text-decoration: none;
+    font-weight: 500;
+    z-index: 200;
+}
+
+.auth-back:hover {
+    color: #6B000D;
+}
+
+/* ========================= */
+/* TEXT */
+/* ========================= */
+h1 {
+    font-weight: 700;
+    font-size: 28px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 15px;
+    line-height: 24px;
+    margin: 20px 0 30px;
+    color: #2F1B1F;
+}
+
+span {
+    font-size: 13px;
+    color: #6B000D;
+}
+
+a {
+    color: #A30015;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+a:hover {
+    color: #6B000D;
+}
+
+/* ========================= */
+/* BUTTONS */
+/* ========================= */
+button {
+    border-radius: 30px;
+    border: none;
+    background: #A30015;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 14px 50px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 6px 18px rgba(107, 0, 13, 0.35);
+}
+
+button:hover {
+    background: #6B000D;
+    transform: translateY(-2px);
+}
+
+button.transparent-btn {
+    background: transparent;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    box-shadow: none;
+}
+
+button.transparent-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ========================= */
+/* FORMS */
+/* ========================= */
+form {
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    text-align: center;
+}
+
+input {
+    background-color: #FDF5F2;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin: 8px 0;
+    width: 100%;
+    font-size: 14px;
+    color: #2F1B1F;
+    transition: 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #A30015;
+    background-color: #FFFFFF;
+}
+
+/* ========================= */
+/* AUTH CONTAINER */
+/* ========================= */
+.auth-wrapper {
+    background-color: #FFFFFF;
+    border-radius: 26px;
+    box-shadow: 0 24px 60px rgba(107, 0, 13, 0.35);
+    position: relative;
+    overflow: hidden;
+    width: 850px;
+    max-width: 100%;
+    min-height: 550px;
+}
+
+/* ========================= */
+/* FORM BOXES */
+/* ========================= */
+.auth-form-box {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: 0.6s ease-in-out;
+}
+
+.login-form-box {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.auth-wrapper.panel-active .login-form-box {
+    transform: translateX(100%);
+}
+
+.register-form-box {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.auth-wrapper.panel-active .register-form-box {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+}
+
+/* ========================= */
+/* SLIDE PANEL */
+/* ========================= */
+.slide-panel-wrapper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+
+.auth-wrapper.panel-active .slide-panel-wrapper {
+    transform: translateX(-100%);
+}
+
+.slide-panel {
+    background: linear-gradient(135deg, #A30015, #6B000D);
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transition: transform 0.6s ease-in-out;
+}
+
+.auth-wrapper.panel-active .slide-panel {
+    transform: translateX(50%);
+}
+
+.panel-content {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+}
+
+.panel-content-left {
+    transform: translateX(-20%);
+}
+
+.auth-wrapper.panel-active .panel-content-left {
+    transform: translateX(0);
+}
+
+.panel-content-right {
+    right: 0;
+}
+
+/* ========================= */
+/* SOCIAL ICONS */
+/* ========================= */
+.social-links {
+    margin: 25px 0;
+}
+
+.social-links a {
+    border: 2px solid #A30015;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 8px;
+    height: 45px;
+    width: 45px;
+    color: #A30015;
+    transition: 0.3s ease;
+}
+
+.social-links a:hover {
+    background: #A30015;
+    color: #FFFFFF;
+    transform: translateY(-3px);
+}
+
+footer {
+    width: 100%;
+    margin-top: 60px;
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+.mobile-switch {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .auth-wrapper {
+        width: 100%;
+        border-radius: 18px;
+    }
+
+    .auth-form-box {
+        position: static;
+        width: 100%;
+        transform: none;
+        opacity: 1;
+    }
+
+    .register-form-box {
+        display: none;
+    }
+
+    .auth-wrapper.panel-active .register-form-box {
+        display: block;
+    }
+
+    .auth-wrapper.panel-active .login-form-box {
+        display: none;
+    }
+
+    .slide-panel-wrapper {
+        display: none;
+    }
+
+    .mobile-switch {
+        display: block;
+        margin-top: 20px;
+    }
+
+    .mobile-switch button {
+        background: transparent;
+        color: #A30015;
+        border: 2px solid #A30015;
+        padding: 10px 30px;
+    }
+
+    .mobile-switch button:hover {
+        background: #A30015;
+        color: #FFFFFF;
+    }
+}

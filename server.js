@@ -40,6 +40,10 @@ app.get('/item/:id', (req, res) => {
     <a href="/">Back to Home</a>
   `);
 });
+app.get("/auth", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "auth.html"));
+});
+
 
 app.post('/contact', (req, res) => {
   const { fname, lname, email, message } = req.body;
