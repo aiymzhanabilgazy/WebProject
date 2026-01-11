@@ -10,7 +10,7 @@ app.use('/images', express.static('images'));
 //middlewares
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
-app.use((req, res, next) => { //custom loger middleware
+app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
@@ -68,6 +68,55 @@ app.post('/api/users', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+app.put('/api/users/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { name, email } = req.body;
+
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid id' });
+  }
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and email are required' });
+  }
+
+  try {
+    const result = await pool.query(
+      'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *',
+      [name, email, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+app.delete('/api/users/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid id' });
+  }
+
+  try {
+    const result = await pool.query(
+      'DELETE FROM users WHERE id = $1 RETURNING *',
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 
 //html pages
@@ -96,11 +145,16 @@ app.get('/contact', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).send(`
-    <h2>404 - Page Not Found</h2>
-    <a href="/">Go Home</a>
-  `);
+  if (req.url.startsWith('/api')) {
+    res.status(404).json({ error: 'API route not found' });
+  } else {
+    res.status(404).send(`
+      <h2>404 - Page Not Found</h2>
+      <a href="/">Go Home</a>
+    `);
+  }
 });
+
 
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');

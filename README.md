@@ -204,3 +204,28 @@ Form data is processed using `req.body` and logged to the console to demonstrate
 We added a Contact page to collect feedback from users.  
 The page contains a form with fields for name, email, and message.  
 This allows users to send their ideas, suggestions, or feedback directly to the backend.
+
+# Assignment 2 Part 2 Work with DataBase
+
+## Database
+PostgreSQL
+
+## Table structure
+users:
+- id (SERIAL, PRIMARY KEY)
+- name (VARCHAR)
+- email (VARCHAR)
+
+## API Routes
+- GET /api/users
+- GET /api/users/:id
+- POST /api/users
+- PUT /api/users/:id
+- DELETE /api/users/:id
+
+## How to run
+1. npm install
+2. node server.js
+3. Open http://localhost:3000
+
+
