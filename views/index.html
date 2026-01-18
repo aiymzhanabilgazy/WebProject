@@ -54,8 +54,10 @@
 
                     <h3>Links</h3>
                     <ul>
-                        <li><a href="/api/users" target="_blank">/api/users</a></li>
-                        <li><a href="/api/users/ID" target="_blank">/api/users/:id</a></li>
+                        <li><a href="/api/users" target="_blank">GET /api/users</a></li>
+                        <li><a href="/api/users?name=John" target="_blank">Filter by name</a></li>
+                        <li><a href="/api/users?sort=name&order=desc" target="_blank">Sort by name DESC</a></li>
+                        <li><a href="/api/users?fields=name,email" target="_blank">Projection (name, email)</a></li>
                     </ul>
                 </div>
 
