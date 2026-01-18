@@ -229,3 +229,173 @@ users:
 3. Open http://localhost:3000
 
 
+# Assignment 3 – Part 1
+
+## Backend API with MongoDB (CRUD)
+
+###  Overview
+
+This part of the project focuses on backend API development using **Node.js**, **Express**, and **MongoDB** with the **native MongoDB driver**.
+The goal of Assignment 3 Part 1 is to design and implement a RESTful API that supports full **CRUD operations**, as well as **filtering, sorting, and projection**.
+
+---
+
+## Technologies Used
+
+* Node.js
+* Express.js
+* MongoDB Atlas
+* Native MongoDB Node.js Driver (no Mongoose)
+
+---
+
+
+##  Database
+
+* **Database name:** `web_app`
+* **Collection:** `users`
+
+### User Document Structure
+
+```json
+{
+  "_id": "ObjectId",
+  "name": "Marzhan",
+  "email": "marzhan@gmail.com"
+}
+```
+
+---
+
+##  API Endpoints (CRUD)
+
+### GET — Retrieve all users
+
+```
+GET /api/users
+```
+
+Returns all users from the database.
+
+**Status Code:**
+`200 OK`
+
+---
+
+### GET — Retrieve user by ID
+
+```
+GET /api/users/:id
+```
+
+**Status Codes:**
+
+* `200 OK` – user found
+* `400 Bad Request` – invalid ID
+* `404 Not Found` – user does not exist
+
+---
+
+### POST — Create a new user
+
+```
+POST /api/users
+```
+
+**Request Body:**
+
+```json
+{
+  "name": "Aiymzhan",
+  "email": "aiym@gmail.com"
+}
+```
+
+**Status Codes:**
+
+* `201 Created` – user created successfully
+* `400 Bad Request` – missing required fields
+
+---
+
+### PUT — Update an existing user
+
+```
+PUT /api/users/:id
+```
+
+**Request Body (at least one field):**
+
+```json
+{
+  "name": "Updated Name"
+}
+```
+
+**Status Codes:**
+
+* `200 OK` – user updated
+* `400 Bad Request` – invalid ID or empty body
+* `404 Not Found` – user not found
+
+---
+
+### DELETE — Delete a user
+
+```
+DELETE /api/users/:id
+```
+
+**Status Codes:**
+
+* `204 No Content` – user deleted
+* `400 Bad Request` – invalid ID
+* `404 Not Found` – user not found
+
+---
+
+##  Query Features
+
+### Filtering
+
+```
+GET /api/users?name=John
+```
+
+### Sorting
+
+```
+GET /api/users?sort=name&order=desc
+```
+
+### Projection
+
+```
+GET /api/users?fields=name,email
+```
+
+---
+
+##  API Testing
+
+Direct API test links are provided on the **Home Page (`/`)**, allowing quick testing of:
+
+* Retrieving all users
+* Filtering results
+* Sorting records
+* Field projection
+
+---
+
+##  Validation & Error Handling
+
+* Input validation for required fields
+* ObjectId validation for routes with `:id`
+* Global 404 handler for API routes
+* Proper HTTP status codes:
+
+  * `200 OK`
+  * `201 Created`
+  * `400 Bad Request`
+  * `404 Not Found`
+  * `500 Internal Server Error`
