@@ -72,15 +72,19 @@ app.get('/api/users/:id', async (req, res) => {
   }
 });
 app.post('/api/users', async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email,password } = req.body;
 
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Name and email are required' });
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: 'All fields are required' });
   }
 
   try {
     const db = getDB();
-    const result = await db.collection('users').insertOne({ name, email });
+    const result = await db.collection('users').insertOne({
+      name,
+      email,
+      password
+    });
 
     res.status(201).json({
       _id: result.insertedId,
