@@ -80,7 +80,6 @@ if (!localStorage.getItem('userId')) {
   localStorage.setItem('userId', crypto.randomUUID());
 }
 
-const userId = localStorage.getItem('userId');
 
 const container = document.getElementById('pinsContainer');
 
@@ -103,10 +102,11 @@ function renderPosts(posts) {
           <ion-icon name="heart-outline"></ion-icon>
           <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
 
-          ${post.userId === userId ? `
+          ${post.userId === loggedUser._id ? `
             <button onclick="editPost('${post._id}')">✏️</button>
             <button onclick="deletePost('${post._id}')">🗑️</button>
-          ` : ''}
+            ` : ''}
+
         </div>
       </div>
     </div>
@@ -123,12 +123,12 @@ document.getElementById('submitPost').addEventListener('click', async () => {
   const postId = document.getElementById('postId').value;
 
   const postData = {
-    author: postAuthor.value,
-    imageUrl: postImage.value,
-    description: postDescription.value,
-    category: postCategory.value,
-    userId
-  };
+    author: loggedUser.name,
+    imageUrl,
+    description,
+    category,
+    userId: loggedUser._id
+    };
 
   if (postId) {
     // UPDATE
@@ -178,6 +178,14 @@ async function editPost(id) {
   document.getElementById('createPostForm').style.display = 'block';
   document.getElementById('submitPost').textContent = 'Update';
 }
+const loggedUser = JSON.parse(localStorage.getItem('user'));
+
+if (!loggedUser) {
+  alert('Please log in');
+  window.location.href = '/auth';
+}
+
+const userId = loggedUser._id;
 
 </script>
 
