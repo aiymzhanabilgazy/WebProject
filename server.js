@@ -157,6 +157,49 @@ app.delete('/api/users/:id', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+//Post CRUD
+// POSTS CRUD (для pins / ideas / locations)
+
+app.get('/api/posts', async (req, res) => {
+  const db = getDB();
+  const posts = await db.collection('posts').find().toArray();
+  res.json(posts);
+});
+
+app.post('/api/posts', async (req, res) => {
+  const { title, description, imageUrl, category, author, userId } = req.body;
+
+  const db = getDB();
+  const result = await db.collection('posts').insertOne({
+    title,
+    description,
+    imageUrl,
+    category,
+    author,
+    userId,
+    createdAt: new Date()
+  });
+
+  res.status(201).json(result);
+});
+
+app.put('/api/posts/:id', async (req, res) => {
+  const db = getDB();
+  await db.collection('posts').updateOne(
+    { _id: new ObjectId(req.params.id) },
+    { $set: req.body }
+  );
+  res.json({ message: 'Post updated' });
+});
+
+app.delete('/api/posts/:id', async (req, res) => {
+  const db = getDB();
+  await db.collection('posts').deleteOne(
+    { _id: new ObjectId(req.params.id) }
+  );
+  res.sendStatus(204);
+});
+
 
   
 

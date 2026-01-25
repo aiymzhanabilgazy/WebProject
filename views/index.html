@@ -79,115 +79,7 @@
 
 
         <!--pics-->
-        <section class="pins">
-            <div class="pin">
-                <img src="/images/pin1.jpg">
-                <div class="pin-info">
-                    <p class="author">Erkezhan B.</p>
-                    <p class="story">
-                        I attended a canvas painting workshop. 
-                        It was very interesting and a great time chatting with the girls &#127912;&#128147;
-                    </p>
-                    <p class="location">&#128205;Location: Bella cafe</p>
-                    <div class="pin-actions">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="pin">
-                <img src="/images/pin2.jpg">
-                <div class="pin-info">
-                    <p class="author">Selena G.</p>
-                    <p class="story">Intensive preparation for IELTS &#128218;&#128187;</p>
-                    <div class="pin-actions">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pin">
-                <img src="/images/pin3.jpg">
-                <div class="pin-info">
-                    <p class="author">Aruzhan K.</p>
-                    <p class="story">Creative chaos &#128540;</p>
-                    <div class="pin-actions">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-            <div class="pin">
-                <img src="/images/pin4.jpg">
-                <div class="pin-info">
-                    <p class="author">Aiymzhan A.</p>
-                    <p class="story">An unforgettable evening with &#129653;</p>
-                    <p class="location"> &#128205;Location:Egypt,Marriott Mena House</p>
-                    <div class="pin-actions">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pin">
-                <img src="/images/pin5.jpg">
-                <div class="pin-info">
-                    <p class="author">Marzhan T.</p>
-                    <p class="story">Editing is my soul therapy &#128151;</p>
-                    <div class="pin-actions">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pin">
-                <img src="/images/pin6.jpg">
-                <div class="pin-info">
-                    <p class="author">Ariana G.</p>
-                    <p class="story"> From Neilya's Birthday Party</p>
-                    <div class="pin-actions">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pin">
-                <img src="/images/pin7.jpg">
-                <div class="pin-info">
-                    <p class="author">Alina H.</p>
-                    <p class="story">My husband takes wonderful pictures of nature.</p>
-                    <div class="pin-actions">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pin">
-                <img src="/images/pin8.jpg">
-                <div class="pin-info">
-                    <p class="author">Saniya Y.</p>
-                    <p class="story">Just aesthetic &#127800;</p>
-                    <div class="pin-actions">
-                        <ion-icon name="heart-outline"></ion-icon>
-                        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                        <ion-icon name="bookmark-outline"></ion-icon>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section class="pins" id="pinsContainer"></section>
         <!--show more button-->
         <div class="show-more-container">
             <button class="show-more">SHOW MORE</button>
@@ -207,5 +99,37 @@
             <p class="footer-credit">&copy;2025 InspireMe. Designed with ♡</p>
         </div>
     </footer>
+
+<script>
+const container = document.getElementById('pinsContainer');
+
+fetch('/api/posts')
+  .then(res => res.json())
+  .then(posts => {
+    container.innerHTML = '';
+    posts.forEach(post => {
+      container.innerHTML += `
+        <div class="pin">
+          <img src="${post.imageUrl}">
+          <div class="pin-info">
+            <p class="author">${post.author}</p>
+            <p class="story">${post.description}</p>
+
+            ${
+              post.userId === localStorage.getItem('userId')
+                ? `<button onclick="deletePost('${post._id}')">🗑</button>`
+                : ''
+            }
+          </div>
+        </div>
+      `;
+    });
+  });
+
+function deletePost(id) {
+  fetch('/api/posts/' + id, { method: 'DELETE' })
+    .then(() => location.reload());
+}
+</script>
 </body>
 </html>
