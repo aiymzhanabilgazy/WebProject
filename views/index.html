@@ -81,24 +81,24 @@
         <!--pics-->
         <section class="pins" id="pinsContainer"></section>
 
+        <!-- Замените секцию create-post-container и форму -->
         <div class="create-post-container">
-            <button id="openCreatePost" class="create-post-btn">
-                + Create post
-            </button>
+            <button id="openCreatePost" class="create-post-btn">+ Create post</button>
         </div>
 
-        <div id="createPostForm" style="display:none; margin:20px;">
-            <input id="postAuthor" placeholder="Your name" /><br><br>
-            <input id="postImage" placeholder="Image URL (e.g. /images/pin1.jpg)" /><br><br>
-            <textarea id="postDescription" placeholder="Description"></textarea><br><br>
-
+        <div id="createPostForm" style="display:none; margin:20px; background: white; padding: 20px; border-radius: 10px;">
+            <input id="postAuthor" placeholder="Your name" />
+            <input id="postImage" placeholder="Image URL (e.g. /images/pin1.jpg)" />
+            <textarea id="postDescription" placeholder="Description"></textarea>
             <select id="postCategory">
                 <option value="creativity">Creativity</option>
                 <option value="locations">Locations</option>
-            </select><br><br>
-
+            </select>
+            <input type="hidden" id="postId" />
             <button id="submitPost">Publish</button>
+            <button id="cancelEdit" style="display:none;">Cancel</button>
         </div>
+
 
 
         <!--show more button-->

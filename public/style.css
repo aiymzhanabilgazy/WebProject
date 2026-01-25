@@ -325,3 +325,33 @@ body {
 .footer-links a:hover {
     color: #6B000D;
 }
+.pin-actions button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.pin-actions button:hover {
+  background: #f0f0f0;
+}
+
+.create-post-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.create-post-btn {
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
