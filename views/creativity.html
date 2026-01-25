@@ -76,8 +76,13 @@
 </footer>
 
 <script>
+if (!localStorage.getItem('userId')) {
+  localStorage.setItem('userId', crypto.randomUUID());
+}
+
+const userId = localStorage.getItem('userId');
+
 const container = document.getElementById('pinsContainer');
-const userId = localStorage.getItem('userId') || 'demo-user';
 
 async function loadPosts() {
     const res = await fetch('/api/posts?category=creativity');
@@ -86,22 +91,28 @@ async function loadPosts() {
 }
 
 function renderPosts(posts) {
-    container.innerHTML = posts.map(post => `
-        <div class="pin location-pin">
-            <img src="${post.imageUrl}">
-            <div class="pin-info">
-                <p class="author">${post.author}</p>
-                <p class="story">${post.description}</p>
-                <p class="location">🎨 Creativity</p>
+  container.innerHTML = posts.map(post => `
+    <div class="pin location-pin">
+      <img src="${post.imageUrl}">
+      <div class="pin-info">
+        <p class="author">${post.author}</p>
+        <p class="story">${post.description}</p>
+        <p class="location">🎨 Creativity</p>
 
-                <div class="pin-actions">
-                    <ion-icon name="heart-outline"></ion-icon>
-                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                </div>
-            </div>
+        <div class="pin-actions">
+          <ion-icon name="heart-outline"></ion-icon>
+          <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+
+          ${post.userId === userId ? `
+            <button onclick="editPost('${post._id}')">✏️</button>
+            <button onclick="deletePost('${post._id}')">🗑️</button>
+          ` : ''}
         </div>
-    `).join('');
+      </div>
+    </div>
+  `).join('');
 }
+
 
 document.getElementById('openCreatePost').onclick = () => {
     document.getElementById('createPostForm').style.display = 'block';
@@ -109,32 +120,65 @@ document.getElementById('openCreatePost').onclick = () => {
 
 document.getElementById('submitPost').addEventListener('click', async () => {
 
-  const category = document.getElementById('postCategory').value;
+  const postId = document.getElementById('postId').value;
 
   const postData = {
-    author: document.getElementById('postAuthor').value,
-    imageUrl: document.getElementById('postImage').value,
-    description: document.getElementById('postDescription').value,
-    category: category,
+    author: postAuthor.value,
+    imageUrl: postImage.value,
+    description: postDescription.value,
+    category: postCategory.value,
     userId
   };
 
-  try {
+  if (postId) {
+    // UPDATE
+    await fetch(`/api/posts/${postId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData)
+    });
+  } else {
+    // CREATE
     await fetch('/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData)
     });
-
-    document.getElementById('createPostForm').style.display = 'none';
-    loadPosts();
-
-  } catch (error) {
-    alert('Error creating post');
   }
+
+  document.getElementById('createPostForm').style.display = 'none';
+  document.getElementById('postId').value = '';
+  document.getElementById('submitPost').textContent = 'Publish';
+
+  loadPosts();
 });
 
+
 loadPosts();
+async function deletePost(id) {
+  if (!confirm('Delete this post?')) return;
+
+  await fetch(`/api/posts/${id}`, {
+    method: 'DELETE'
+  });
+
+  loadPosts();
+}
+
+async function editPost(id) {
+  const res = await fetch(`/api/posts/${id}`);
+  const post = await res.json();
+
+  document.getElementById('postAuthor').value = post.author;
+  document.getElementById('postImage').value = post.imageUrl;
+  document.getElementById('postDescription').value = post.description;
+  document.getElementById('postCategory').value = post.category;
+  document.getElementById('postId').value = post._id;
+
+  document.getElementById('createPostForm').style.display = 'block';
+  document.getElementById('submitPost').textContent = 'Update';
+}
+
 </script>
 
 </body>
