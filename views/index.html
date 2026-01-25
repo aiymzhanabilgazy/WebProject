@@ -80,6 +80,27 @@
 
         <!--pics-->
         <section class="pins" id="pinsContainer"></section>
+
+        <div class="create-post-container">
+            <button id="openCreatePost" class="create-post-btn">
+                + Create post
+            </button>
+        </div>
+
+        <div id="createPostForm" style="display:none; margin:20px;">
+            <input id="postAuthor" placeholder="Your name" /><br><br>
+            <input id="postImage" placeholder="Image URL (e.g. /images/pin1.jpg)" /><br><br>
+            <textarea id="postDescription" placeholder="Description"></textarea><br><br>
+
+            <select id="postCategory">
+                <option value="creativity">Creativity</option>
+                <option value="locations">Locations</option>
+            </select><br><br>
+
+            <button id="submitPost">Publish</button>
+        </div>
+
+
         <!--show more button-->
         <div class="show-more-container">
             <button class="show-more">SHOW MORE</button>
@@ -130,6 +151,27 @@ function deletePost(id) {
   fetch('/api/posts/' + id, { method: 'DELETE' })
     .then(() => location.reload());
 }
+const openBtn = document.getElementById('openCreatePost');
+const form = document.getElementById('createPostForm');
+
+openBtn.addEventListener('click', () => {
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+});
+
+document.getElementById('submitPost').addEventListener('click', () => {
+  fetch('/api/posts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      author: document.getElementById('postAuthor').value,
+      description: document.getElementById('postDescription').value,
+      imageUrl: document.getElementById('postImage').value,
+      category: document.getElementById('postCategory').value,
+      userId: localStorage.getItem('userId') || 'demo-user'
+    })
+  }).then(() => location.reload());
+});
+
 </script>
 </body>
 </html>
