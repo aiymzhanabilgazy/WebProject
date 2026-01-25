@@ -4,157 +4,125 @@
     <meta charset="UTF-8">
     <title>Creativity | InspireMe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/creativity.css">
+    <link rel="stylesheet" href="/locations.css">
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
-    <!-- Header остается тот же -->
-    <header class="navbar">
-        <!-- ... ваш существующий header ... -->
-    </header>
 
-    <main>
-        <section class="creativity-header">
-            <h1>Creativity Space</h1>
-            <p>A place to share creative ideas, academic projects, study templates and inspiration.</p>
-        </section>
+<!-- HEADER -->
+<header class="navbar">
+    <div class="nav-left">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+    </div>
 
-        <!-- Create Post Form -->
-        <div class="create-post-container">
-            <button id="openCreatePost" class="create-post-btn">+ Create Creative Post</button>
+    <div class="logo">Inspire Me | Creativity & Locations</div>
+
+    <div class="nav-right">
+        <div class="menu-dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                <a href="/creativity">Creativity</a>
+                <a href="/locations">Locations</a>
+            </div>
         </div>
+    </div>
+</header>
 
-        <div id="createPostForm" style="display:none; margin:20px; background: white; padding: 20px; border-radius: 10px;">
-            <input id="postAuthor" placeholder="Your name" />
-            <input id="postImage" placeholder="Image URL" />
-            <textarea id="postDescription" placeholder="Description"></textarea>
-            <input type="hidden" id="postId" />
-            <button id="submitPost">Publish</button>
-            <button id="cancelEdit" style="display:none;">Cancel</button>
+<main>
+
+<section class="locations-header">
+    <h1>Creativity Space 🎨</h1>
+    <p>Share ideas, projects and inspiration</p>
+</section>
+
+<div class="create-post-container">
+    <button id="openCreatePost" class="create-post-btn">+ Add creative post</button>
+</div>
+
+<div id="createPostForm" style="display:none; margin:20px; background:white; padding:20px; border-radius:10px;">
+    <input id="postAuthor" placeholder="Your name" />
+    <input id="postImage" placeholder="Image URL" />
+    <textarea id="postDescription" placeholder="Description"></textarea>
+    <input type="hidden" id="postId" />
+    <button id="submitPost">Publish</button>
+</div>
+
+<section class="pins locations-pins" id="pinsContainer"></section>
+
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p class="footer-title">Inspire Me ✧ Creativity & Locations</p>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/creativity">Creativity</a>
+            <a href="/locations">Locations</a>
         </div>
+        <p class="footer-credit">Assignment 1 — Week 1</p>
+    </div>
+</footer>
 
-        <!-- Dynamic Posts -->
-        <section class="pins creativity-pins" id="pinsContainer">
-            <!-- Posts будут загружаться сюда -->
-        </section>
-    </main>
+<script>
+const container = document.getElementById('pinsContainer');
+const userId = localStorage.getItem('userId') || 'demo-user';
 
-    <footer class="footer">
-        <!-- ... ваш footer ... -->
-    </footer>
+async function loadPosts() {
+    const res = await fetch('/api/posts?category=creativity');
+    const posts = await res.json();
+    renderPosts(posts);
+}
 
-    <script>
-        const container = document.getElementById('pinsContainer');
-        const userId = localStorage.getItem('userId') || 'demo-user';
-        
-        // Загрузка постов
-        async function loadPosts() {
-            try {
-                const res = await fetch('/api/posts?category=creativity');
-                const posts = await res.json();
-                renderPosts(posts);
-            } catch (error) {
-                console.error('Error loading posts:', error);
-            }
-        }
+function renderPosts(posts) {
+    container.innerHTML = posts.map(post => `
+        <div class="pin location-pin">
+            <img src="${post.imageUrl}">
+            <div class="pin-info">
+                <p class="author">${post.author}</p>
+                <p class="story">${post.description}</p>
+                <p class="location">🎨 Creativity</p>
 
-        function renderPosts(posts) {
-            container.innerHTML = posts.map(post => `
-                <div class="pin" data-id="${post._id}">
-                    <img src="${post.imageUrl}" alt="Creative post">
-                    <div class="pin-info">
-                        <p class="author">${post.author}</p>
-                        <p class="story">${post.description}</p>
-                        <div class="pin-actions">
-                            <ion-icon name="heart-outline"></ion-icon>
-                            <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                            ${post.userId === userId ? `
-                                <button onclick="editPost('${post._id}')" title="Edit">✏️</button>
-                                <button onclick="deletePost('${post._id}')" title="Delete">🗑️</button>
-                            ` : ''}
-                        </div>
-                    </div>
+                <div class="pin-actions">
+                    <ion-icon name="heart-outline"></ion-icon>
+                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
                 </div>
-            `).join('');
-        }
+            </div>
+        </div>
+    `).join('');
+}
 
-        // CRUD операции
-        async function deletePost(id) {
-            if (!confirm('Delete this post?')) return;
-            try {
-                await fetch(`/api/posts/${id}`, { method: 'DELETE' });
-                loadPosts();
-            } catch (error) {
-                alert('Error deleting post');
-            }
-        }
+document.getElementById('openCreatePost').onclick = () => {
+    document.getElementById('createPostForm').style.display = 'block';
+};
 
-        async function editPost(id) {
-            const res = await fetch(`/api/posts/${id}`);
-            const post = await res.json();
-            
-            document.getElementById('postAuthor').value = post.author;
-            document.getElementById('postImage').value = post.imageUrl;
-            document.getElementById('postDescription').value = post.description;
-            document.getElementById('postId').value = post._id;
-            document.getElementById('createPostForm').style.display = 'block';
-            document.getElementById('submitPost').textContent = 'Update';
-            document.getElementById('cancelEdit').style.display = 'inline';
-        }
+document.getElementById('submitPost').onclick = async () => {
+    const postData = {
+        author: postAuthor.value,
+        imageUrl: postImage.value,
+        description: postDescription.value,
+        category: 'creativity',
+        userId
+    };
 
-        // Форма создания/редактирования
-        document.getElementById('openCreatePost').addEventListener('click', () => {
-            document.getElementById('createPostForm').style.display = 'block';
-            document.getElementById('postAuthor').value = '';
-            document.getElementById('postImage').value = '';
-            document.getElementById('postDescription').value = '';
-            document.getElementById('postId').value = '';
-            document.getElementById('submitPost').textContent = 'Publish';
-            document.getElementById('cancelEdit').style.display = 'none';
-        });
+    await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+    });
 
-        document.getElementById('cancelEdit').addEventListener('click', () => {
-            document.getElementById('createPostForm').style.display = 'none';
-        });
+    createPostForm.style.display = 'none';
+    loadPosts();
+};
 
-        document.getElementById('submitPost').addEventListener('click', async () => {
-            const postData = {
-                author: document.getElementById('postAuthor').value,
-                imageUrl: document.getElementById('postImage').value,
-                description: document.getElementById('postDescription').value,
-                category: 'creativity',
-                userId: userId
-            };
+loadPosts();
+</script>
 
-            const postId = document.getElementById('postId').value;
-            
-            try {
-                if (postId) {
-                    // Update
-                    await fetch(`/api/posts/${postId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(postData)
-                    });
-                } else {
-                    // Create
-                    await fetch('/api/posts', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(postData)
-                    });
-                }
-                document.getElementById('createPostForm').style.display = 'none';
-                loadPosts();
-            } catch (error) {
-                alert('Error saving post');
-            }
-        });
-
-        // Инициализация
-        loadPosts();
-    </script>
 </body>
 </html>

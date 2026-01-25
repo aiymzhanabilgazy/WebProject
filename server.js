@@ -158,13 +158,29 @@ app.delete('/api/users/:id', async (req, res) => {
   }
 });
 //Post CRUD
-// POSTS CRUD (для pins / ideas / locations)
 
 app.get('/api/posts', async (req, res) => {
   const db = getDB();
   const posts = await db.collection('posts').find().toArray();
   res.json(posts);
 });
+app.get('/api/posts/:id', async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ error: 'Invalid id' });
+  }
+
+  const db = getDB();
+  const post = await db.collection('posts').findOne({
+    _id: new ObjectId(req.params.id)
+  });
+
+  if (!post) {
+    return res.status(404).json({ error: 'Post not found' });
+  }
+
+  res.json(post);
+});
+
 
 app.post('/api/posts', async (req, res) => {
   const { title, description, imageUrl, category, author, userId } = req.body;

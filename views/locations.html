@@ -13,6 +13,7 @@
 </head>
 <body>
 
+<!-- HEADER -->
 <header class="navbar">
     <div class="nav-left">
         <a href="/">Home</a>
@@ -35,71 +36,31 @@
 
 <main>
 
-    <!-- HEADER -->
-    <section class="locations-header">
-        <h1>Cozy Locations ☕</h1>
-        <p>Places to relax, study, chat and enjoy the atmosphere</p>
-    </section>
+<section class="locations-header">
+    <h1>Cozy Locations ☕</h1>
+    <p>Places to relax, study and enjoy atmosphere</p>
+</section>
 
-    <!-- LOCATION PINS -->
-    <section class="pins locations-pins">
+<!-- ADD POST -->
+<div class="create-post-container">
+    <button id="openCreatePost" class="create-post-btn">+ Add location</button>
+</div>
 
-        <div class="pin location-pin">
-            <img src="/images/bella.jpg">
-            <div class="pin-info">
-                <p class="author">Bella Café</p>
-                <p class="story">
-                    Cozy place with warm lights and calm music.
-                    Perfect for evening talks 
-                </p>
-                <p class="location">📍 Bella Café, city center</p>
+<div id="createPostForm" style="display:none; margin:20px; background:white; padding:20px; border-radius:10px;">
+    <input id="postAuthor" placeholder="Place name" />
+    <input id="postImage" placeholder="Image URL" />
+    <textarea id="postDescription" placeholder="Description"></textarea>
+    <input type="hidden" id="postId" />
+    <button id="submitPost">Publish</button>
+    <button id="cancelEdit" style="display:none;">Cancel</button>
+</div>
 
-                <div class="pin-actions">
-                    <ion-icon name="heart-outline"></ion-icon>
-                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                    <ion-icon name="bookmark-outline"></ion-icon>
-                </div>
-            </div>
-        </div>
-
-        <div class="pin location-pin">
-            <img src="/images/cafe.jpg">
-            <div class="pin-info">
-                <p class="author">Urban Coffee</p>
-                <p class="story">
-                    Quiet café for studying and working with laptop 
-                </p>
-                <p class="location">📍 Urban Coffee</p>
-
-                <div class="pin-actions">
-                    <ion-icon name="heart-outline"></ion-icon>
-                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                    <ion-icon name="bookmark-outline"></ion-icon>
-                </div>
-            </div>
-        </div>
-
-        <div class="pin location-pin">
-            <img src="/images/bloom.jpg">
-            <div class="pin-info">
-                <p class="author">Bloom Space</p>
-                <p class="story">
-                    Aesthetic interior, plants and soft light
-                </p>
-                <p class="location">📍 Bloom Space</p>
-
-                <div class="pin-actions">
-                    <ion-icon name="heart-outline"></ion-icon>
-                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-                    <ion-icon name="bookmark-outline"></ion-icon>
-                </div>
-            </div>
-        </div>
-
-    </section>
+<!-- PINS -->
+<section class="pins locations-pins" id="pinsContainer"></section>
 
 </main>
 
+<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-content">
         <p class="footer-title">Inspire Me ✧ Creativity & Locations</p>
@@ -112,6 +73,60 @@
         <p class="footer-credit">Assignment 1 — Week 1</p>
     </div>
 </footer>
+
+<script>
+const container = document.getElementById('pinsContainer');
+const userId = localStorage.getItem('userId') || 'demo-user';
+
+async function loadPosts() {
+    const res = await fetch('/api/posts?category=locations');
+    const posts = await res.json();
+    renderPosts(posts);
+}
+
+function renderPosts(posts) {
+    container.innerHTML = posts.map(post => `
+        <div class="pin location-pin">
+            <img src="${post.imageUrl}">
+            <div class="pin-info">
+                <p class="author">${post.author}</p>
+                <p class="story">${post.description}</p>
+                <p class="location">📍 Location</p>
+
+                <div class="pin-actions">
+                    <ion-icon name="heart-outline"></ion-icon>
+                    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+document.getElementById('openCreatePost').onclick = () => {
+    document.getElementById('createPostForm').style.display = 'block';
+};
+
+document.getElementById('submitPost').onclick = async () => {
+    const postData = {
+        author: postAuthor.value,
+        imageUrl: postImage.value,
+        description: postDescription.value,
+        category: 'locations',
+        userId
+    };
+
+    await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+    });
+
+    createPostForm.style.display = 'none';
+    loadPosts();
+};
+
+loadPosts();
+</script>
 
 </body>
 </html>
