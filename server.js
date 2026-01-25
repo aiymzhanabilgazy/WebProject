@@ -1,9 +1,16 @@
 const express = require('express');
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const app = express();
-const { ObjectId } = require('mongodb');
+const { MongoClient, ObjectId } = require("mongodb");
 const { connectDB, getDB } = require('./db');
+
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+const MONGO_URL = process.env.MONGO_URI;
+
+
 
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
@@ -192,7 +199,7 @@ app.use((req, res) => {
 
 // start the server
 connectDB().then(() => {
-  app.listen(3000, () => {
-    console.log(`Server running on http://localhost:3000`);
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
 });
