@@ -50,6 +50,11 @@
     <input id="postImage" placeholder="Image URL" />
     <textarea id="postDescription" placeholder="Description"></textarea>
     <input type="hidden" id="postId" />
+    <select id="postCategory">
+        <option value="creativity">🎨 Creativity</option>
+        <option value="locations">📍 Location</option>
+    </select>
+
     <button id="submitPost">Publish</button>
 </div>
 
@@ -102,24 +107,32 @@ document.getElementById('openCreatePost').onclick = () => {
     document.getElementById('createPostForm').style.display = 'block';
 };
 
-document.getElementById('submitPost').onclick = async () => {
-    const postData = {
-        author: postAuthor.value,
-        imageUrl: postImage.value,
-        description: postDescription.value,
-        category: 'creativity',
-        userId
-    };
+document.getElementById('submitPost').addEventListener('click', async () => {
 
+  const category = document.getElementById('postCategory').value;
+
+  const postData = {
+    author: document.getElementById('postAuthor').value,
+    imageUrl: document.getElementById('postImage').value,
+    description: document.getElementById('postDescription').value,
+    category: category,
+    userId
+  };
+
+  try {
     await fetch('/api/posts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData)
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData)
     });
 
-    createPostForm.style.display = 'none';
+    document.getElementById('createPostForm').style.display = 'none';
     loadPosts();
-};
+
+  } catch (error) {
+    alert('Error creating post');
+  }
+});
 
 loadPosts();
 </script>
