@@ -100,9 +100,10 @@
 <!-- REGISTER -->
 <script>
   document.getElementById('registerSubmit').addEventListener('click', async () => {
-    const name = regName.value;
-    const email = regEmail.value;
-    const password = regPassword.value;
+    const name = regName.value.trim();
+    const email = regEmail.value.trim();
+    const password = regPassword.value.trim();
+
 
     const res = await fetch('/api/users', {
       method: 'POST',
@@ -124,8 +125,9 @@
 <!-- LOGIN -->
 <script>
   document.getElementById('loginSubmit').addEventListener('click', async () => {
-    const email = loginEmail.value;
-    const password = loginPassword.value;
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value.trim();
+
 
     const res = await fetch(`/api/users?email=${email}`);
     const users = await res.json();
