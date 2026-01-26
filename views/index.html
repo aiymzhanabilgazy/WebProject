@@ -57,7 +57,7 @@
     <main>
         <section class="banner">
             <img src="/images/banner.jpg.jpg" alt="banner">
-            
+
                <div class="banner-sections">
                     <a href="/creativity" class="banner-card">
                         <h3>Creativity</h3>
@@ -146,7 +146,10 @@ fetch('/api/posts')
 
 function deletePost(id) {
   fetch('/api/posts/' + id, { method: 'DELETE' })
-    .then(() => location.reload());
+    .then(newPost => {allPosts.unshift(newPost);
+        visibleCount++;
+        renderPins();
+    });
 }
 const openBtn = document.getElementById('openCreatePost');
 const form = document.getElementById('createPostForm');
