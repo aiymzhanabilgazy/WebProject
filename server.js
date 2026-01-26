@@ -28,27 +28,19 @@ app.get('/api/users', async (req, res) => {
     const db = getDB();
 
     const filter = {};
+
     if (req.query.name) {
       filter.name = req.query.name;
     }
 
-    const sort = {};
-    if (req.query.sort) {
-      sort[req.query.sort] = req.query.order === 'desc' ? -1 : 1;
-    }
-
-    let projection = {};
-    if (req.query.fields) {
-      req.query.fields.split(',').forEach(field => {
-        projection[field] = 1;
-      });
+    // ✅ ВОТ ЭТОГО НЕ ХВАТАЛО
+    if (req.query.email) {
+      filter.email = req.query.email;
     }
 
     const users = await db
       .collection('users')
       .find(filter)
-      .project(projection)
-      .sort(sort)
       .toArray();
 
     res.status(200).json(users);
@@ -56,6 +48,7 @@ app.get('/api/users', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 app.get('/api/users/:id', async (req, res) => {
   const { id } = req.params;
 

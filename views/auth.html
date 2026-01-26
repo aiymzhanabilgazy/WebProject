@@ -129,7 +129,11 @@
     const password = loginPassword.value.trim();
 
 
-    const res = await fetch(`/api/users?email=${email}`);
+    if (users.length !== 1) {
+        alert('User not found or duplicate users');
+        return;
+    }
+
     const users = await res.json();
 
     if (!users.length) {
