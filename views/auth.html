@@ -1,165 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In/Up Form</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/auth.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In / Sign Up</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/auth.css">
 </head>
 
 <body>
-    <!-- BACK TO HOME -->
-    <a href="/" class="auth-back">
-        <i class="fa-solid fa-arrow-left"></i> Home
-    </a>
 
-    <div class="auth-wrapper" id="authWrapper">
-        <div class="auth-form-box register-form-box">
-            <form action="#" onsubmit="return false;">
-                <h1>Create Account</h1>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Google"><i class="fab fa-google"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <span>or use your email for registration</span>
-                <input id="regName" type="text" placeholder="Full Name" required />
-                <input id="regEmail" type="email" placeholder="Email Address" required />
-                <input id="regPassword" type="password" placeholder="Password" required />
-                <button id="registerSubmit" type="button">Sign Up</button>
+<!-- BACK TO HOME -->
+<a href="/" class="auth-back">
+  <i class="fa-solid fa-arrow-left"></i> Home
+</a>
 
-                <div class="mobile-switch">
-                    <p>Already have an account?</p>
-                    <input id="loginEmail" type="email" placeholder="Email Address" required />
-                    <input id="loginPassword" type="password" placeholder="Password" required />
-                    <button id="loginSubmit" type="button">Sign In</button>
+<div class="auth-wrapper" id="authWrapper">
 
-                </div>
-            </form>
-        </div>
-        <div class="auth-form-box login-form-box">
-            <form action="#" onsubmit="return false;">
-                <h1>Sign In</h1>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Google"><i class="fab fa-google"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <span>or use your account</span>
-                <input type="email" placeholder="Email Address" required />
-                <input type="password" placeholder="Password" required />
-                <a href="#">Forgot your password?</a>
-                <button type="submit">Sign In</button>
-                <div class="mobile-switch">
-                    <p>Don't have an account?</p>
-                    <button id="mobileRegisterBtn">Sign Up</button>
-                </div>
-            </form>
-        </div>
-        <div class="slide-panel-wrapper">
-            <div class="slide-panel">
-                <div class="panel-content panel-content-left">
-                    <h1>Welcome Back!</h1>
-                    <p>Stay connected by logging in with your credentials and continue your experience</p>
-                    <button class="transparent-btn" id="loginBtn">Sign In</button>
-                </div>
-                <div class="panel-content panel-content-right">
-                    <h1>Hey There!</h1>
-                    <p>Begin your amazing journey by creating an account with us today</p>
-                    <button class="transparent-btn" id="registerBtn">Sign Up</button>
-                </div>
-            </div>
-        </div>
+  <!-- REGISTER -->
+  <div class="auth-form-box register-form-box">
+    <form onsubmit="return false;">
+      <h1>Create Account</h1>
+
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-google"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+
+      <span>or use your email for registration</span>
+
+      <input id="regName" type="text" placeholder="Full Name" required />
+      <input id="regEmail" type="email" placeholder="Email Address" required />
+      <input id="regPassword" type="password" placeholder="Password" required />
+
+      <button id="registerSubmit" type="button">Sign Up</button>
+    </form>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="auth-form-box login-form-box">
+    <form onsubmit="return false;">
+      <h1>Sign In</h1>
+
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-google"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+
+      <span>or use your account</span>
+
+      <input id="loginEmail" type="email" placeholder="Email Address" required />
+      <input id="loginPassword" type="password" placeholder="Password" required />
+
+      <a href="#">Forgot your password?</a>
+
+      <button id="loginSubmit" type="button">Sign In</button>
+    </form>
+  </div>
+
+  <!-- SLIDE PANEL -->
+  <div class="slide-panel-wrapper">
+    <div class="slide-panel">
+
+      <div class="panel-content panel-content-left">
+        <h1>Welcome Back!</h1>
+        <p>Stay connected by logging in with your credentials</p>
+        <button class="transparent-btn" id="loginBtn">Sign In</button>
+      </div>
+
+      <div class="panel-content panel-content-right">
+        <h1>Hey There!</h1>
+        <p>Begin your amazing journey by creating an account with us today</p>
+        <button class="transparent-btn" id="registerBtn">Sign Up</button>
+      </div>
+
     </div>
+  </div>
+
+</div>
+
+<!-- PANEL SWITCH -->
 <script>
-    const registerBtn = document.getElementById('registerBtn');
-        const loginBtn = document.getElementById('loginBtn');
-        const mobileRegisterBtn = document.getElementById('mobileRegisterBtn');
-        const mobileLoginBtn = document.getElementById('mobileLoginBtn');
-        const authWrapper = document.getElementById('authWrapper');
+  const authWrapper = document.getElementById('authWrapper');
+  const registerBtn = document.getElementById('registerBtn');
+  const loginBtn = document.getElementById('loginBtn');
 
-        if (registerBtn) {
-            registerBtn.addEventListener('click', () => {
-                authWrapper.classList.add("panel-active");
-            });
-        }
-
-        if (loginBtn) {
-            loginBtn.addEventListener('click', () => {
-                authWrapper.classList.remove("panel-active");
-            });
-        }
-
-        if (mobileRegisterBtn) {
-            mobileRegisterBtn.addEventListener('click', () => {
-                authWrapper.classList.add("panel-active");
-            });
-        }
-
-        if (mobileLoginBtn) {
-            mobileLoginBtn.addEventListener('click', () => {
-                authWrapper.classList.remove("panel-active");
-            });
-        }
-</script>
-
-<script>
-    
-document.getElementById('registerSubmit').addEventListener('click', async () => {
-  const name = regName.value;
-  const email = regEmail.value;
-  const password = regPassword.value;
-
-  const res = await fetch('/api/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, password })
+  registerBtn.addEventListener('click', () => {
+    authWrapper.classList.add('panel-active');
   });
 
-  const data = await res.json();
+  loginBtn.addEventListener('click', () => {
+    authWrapper.classList.remove('panel-active');
+  });
+</script>
 
-  if (res.ok) {
-    alert('Account created');
-    document.getElementById('loginBtn').click();
-  } else {
-    alert(data.error);
-  }
-});
+<!-- REGISTER -->
+<script>
+  document.getElementById('registerSubmit').addEventListener('click', async () => {
+    const name = regName.value;
+    const email = regEmail.value;
+    const password = regPassword.value;
 
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
 
-document.getElementById('loginSubmit').addEventListener('click', async () => {
-  const email = loginEmail.value;
-  const password = loginPassword.value;
+    const data = await res.json();
 
-  const res = await fetch(`/api/users?email=${email}`);
-  const users = await res.json();
+    if (res.ok) {
+      alert('Account created');
+      document.getElementById('loginBtn').click();
+    } else {
+      alert(data.error || 'Registration error');
+    }
+  });
+</script>
 
-  if (users.length === 0) {
-    alert('User not found');
-    return;
-  }
+<!-- LOGIN -->
+<script>
+  document.getElementById('loginSubmit').addEventListener('click', async () => {
+    const email = loginEmail.value;
+    const password = loginPassword.value;
 
-  const user = users[0];
+    const res = await fetch(`/api/users?email=${email}`);
+    const users = await res.json();
 
-  if (user.password !== password) {
-    alert('Wrong password');
-    return;
-  }
+    if (!users.length) {
+      alert('User not found');
+      return;
+    }
 
-  // 🔥 ВАЖНО
-  localStorage.setItem('user', JSON.stringify({
-    _id: user._id,
-    name: user.name,
-    email: user.email
-  }));
+    const user = users[0];
 
-  window.location.href = '/';
-});
+    if (user.password !== password) {
+      alert('Wrong password');
+      return;
+    }
 
+    localStorage.setItem('user', JSON.stringify({
+      _id: user._id,
+      name: user.name,
+      email: user.email
+    }));
+
+    window.location.href = '/';
+  });
 </script>
 
 </body>
-
-
 </html>
