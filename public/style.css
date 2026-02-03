@@ -1,3 +1,8 @@
+:root {
+  --bg-main: #fdfafa;
+  --text-main: #2F1B1F;
+  --bg-header: #ffffff;
+}
 
 body {
   margin: 0;
@@ -7,10 +12,21 @@ body {
   color: var(--text-main);
 }
 .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 14px 36px;
   background: var(--bg-header);
   border-bottom: 1px solid rgba(0,0,0,0.04);
+  position: relative;
+  z-index: 1000;
 }
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
 .nav-left a {
     text-decoration: none;
     color: #A30015;
@@ -62,6 +78,13 @@ body {
 .auth-icon:hover {
     color: #6B000D;
 }
+.logo {
+  font-size: 18px;
+  font-weight: 600;
+  color: #A30015;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
 
 
 /* DROPDOWN */
@@ -76,6 +99,7 @@ body {
     font-size: 18px;
     color: #A30015;
     cursor: pointer;
+    outline: none;
 }
 
 .dropbtn:hover {
@@ -91,8 +115,12 @@ body {
     border-radius: 14px;
     box-shadow: 0 20px 40px rgba(163, 0, 21, 0.25);
     padding: 10px 0;
+    z-index: 2000;
 }
-
+.dropbtn:focus {
+  outline: none;
+  box-shadow: none;
+}
 .dropdown-content a {
     text-decoration: none;
     display: block;
@@ -118,7 +146,8 @@ body {
     margin: 50px auto;
     border-radius: 32px;
     overflow: hidden;
-    background: rgba(67, 13, 13, 0.9)
+    background: rgba(67, 13, 13, 0.9);
+
 }
 
 .banner img {

@@ -122,7 +122,7 @@
   });
 </script>
 
-<!-- LOGIN -->
+<!-- LOGIN --
 <script>
   document.getElementById('loginSubmit').addEventListener('click', async () => {
     const email = loginEmail.value.trim();
@@ -155,8 +155,42 @@
     }));
 
     window.location.href = '/';
+  }); 
+  </script> -->
+
+<script>
+document.getElementById('loginSubmit').addEventListener('click', async () => {
+  const emailInput = document.getElementById('loginEmail');
+  const passwordInput = document.getElementById('loginPassword');
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) {
+    alert('Fill all fields');
+    return;
+  }
+
+  const res = await fetch('/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
   });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    alert(data.message || 'Login failed');
+    return;
+  }
+
+  localStorage.setItem('user', JSON.stringify(data.user));
+  window.location.href = '/';
+});
 </script>
+
+
+
 
 </body>
 </html>

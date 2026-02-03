@@ -209,6 +209,37 @@ app.delete('/api/posts/:id', async (req, res) => {
   res.sendStatus(204);
 });
 
+app.post('/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  console.log('LOGIN REQUEST:', email, password);
+
+  try {
+    const db = getDB();
+
+    const user = await db.collection('users').findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    if (user.password !== password) {
+      return res.status(400).json({ message: 'Wrong password' });
+    }
+
+    res.json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
   
 
