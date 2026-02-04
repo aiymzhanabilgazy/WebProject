@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const { MongoClient, ObjectId } = require("mongodb");
+const MongoStore = require('connect-mongo').default;
 const { connectDB, getDB } = require('./db');
 
 const session = require('express-session');
@@ -26,6 +26,19 @@ app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'secret123',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI
+  }),
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    maxAge: 1000 * 60 * 60
+  }
+}));
 
 // =======================
 // SESSION SETUP
