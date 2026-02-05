@@ -82,89 +82,10 @@
 
 </div>
 
-<!-- PANEL SWITCH -->
-<script>
-  const authWrapper = document.getElementById('authWrapper');
-  const registerBtn = document.getElementById('registerBtn');
-  const loginBtn = document.getElementById('loginBtn');
-
-  registerBtn.addEventListener('click', () => {
-    authWrapper.classList.add('panel-active');
-  });
-
-  loginBtn.addEventListener('click', () => {
-    authWrapper.classList.remove('panel-active');
-  });
-</script>
-
-<!-- REGISTER -->
-<script>
-  document.getElementById('registerSubmit').addEventListener('click', async () => {
-    const name = regName.value.trim();
-    const email = regEmail.value.trim();
-    const password = regPassword.value.trim();
-
-
-    const res = await fetch('/api/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password })
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      alert('Account created');
-      document.getElementById('loginBtn').click();
-    } else {
-      alert(data.error || 'Registration error');
-    }
-  });
-</script>
-
-<!-- LOGIN --
-<script>
-  document.getElementById('loginSubmit').addEventListener('click', async () => {
-    const email = loginEmail.value.trim();
-    const password = loginPassword.value.trim();
-
-
-    if (users.length !== 1) {
-        alert('User not found or duplicate users');
-        return;
-    }
-
-    const users = await res.json();
-
-    if (!users.length) {
-      alert('User not found');
-      return;
-    }
-
-    const user = users[0];
-
-    if (user.password !== password) {
-      alert('Wrong password');
-      return;
-    }
-
-    localStorage.setItem('user', JSON.stringify({
-      _id: user._id,
-      name: user.name,
-      email: user.email
-    }));
-
-    window.location.href = '/';
-  }); 
-  </script> -->
-
 <script>
 document.getElementById('loginSubmit').addEventListener('click', async () => {
-  const emailInput = document.getElementById('loginEmail');
-  const passwordInput = document.getElementById('loginPassword');
-
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
 
   if (!email || !password) {
     alert('Fill all fields');
@@ -174,6 +95,7 @@ document.getElementById('loginSubmit').addEventListener('click', async () => {
   const res = await fetch('/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
     body: JSON.stringify({ email, password })
   });
 
@@ -184,7 +106,7 @@ document.getElementById('loginSubmit').addEventListener('click', async () => {
     return;
   }
 
-  localStorage.setItem('user', JSON.stringify(data.user));
+  // ВАЖНО: просто идём на /
   window.location.href = '/';
 });
 </script>

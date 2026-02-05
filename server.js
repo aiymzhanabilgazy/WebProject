@@ -1,12 +1,12 @@
 const express = require('express');
 require('dotenv').config();
 const fs = require('fs');
+const { ObjectId } = require('mongodb');
 const path = require('path');
-const MongoStore = require('connect-mongo').default;
 const { connectDB, getDB } = require('./db');
 
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo').default;
 const bcrypt = require('bcrypt');
 
 const app = express();
@@ -34,29 +34,13 @@ app.use(session({
     mongoUrl: process.env.MONGO_URI
   }),
   cookie: {
-    httpOnly: true,
-    secure: false,
-    maxAge: 1000 * 60 * 60
-  }
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  maxAge: 1000 * 60 * 60
+}
+
 }));
 
-// =======================
-// SESSION SETUP
-// =======================
-
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'secret123',
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI
-  }),
-  cookie: {
-    httpOnly: true,
-    secure: false, // true when https
-    maxAge: 1000 * 60 * 60
-  }
-}));
 
 // =======================
 // AUTH MIDDLEWARE
@@ -73,7 +57,7 @@ function isAuthenticated(req, res, next) {
 // USERS CRUD
 // =======================
 
-app.get('/api/users', async (req, res) => {
+app.get('/api/users', isAuthenticated, async (req, res) => {
   try {
     const db = getDB();
     const filter = {};
@@ -88,7 +72,7 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
-app.get('/api/users/:id', async (req, res) => {
+app.get('/api/users/:id',isAuthenticated, async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ error: 'Invalid id' });
   }
@@ -237,6 +221,19 @@ app.put('/api/posts/:id', isAuthenticated, async (req, res) => {
 
 app.delete('/api/posts/:id', isAuthenticated, async (req, res) => {
   const db = getDB();
+
+  const post = await db.collection('posts').findOne({
+    _id: new ObjectId(req.params.id)
+  });
+
+  if (!post) {
+    return res.status(404).json({ error: 'Post not found' });
+  }
+
+  if (post.userId.toString() !== req.session.userId.toString()) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
   await db.collection('posts').deleteOne({
     _id: new ObjectId(req.params.id)
   });
@@ -244,9 +241,17 @@ app.delete('/api/posts/:id', isAuthenticated, async (req, res) => {
   res.sendStatus(204);
 });
 
+
 // =======================
 // LOGIN
 // =======================
+app.get('/auth/me', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ authenticated: false });
+  }
+  res.json({ authenticated: true });
+});
+
 
 app.post('/auth/login', async (req, res) => {
   const { email, password } = req.body;
@@ -279,6 +284,16 @@ app.post('/auth/login', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+app.post('/auth/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ message: 'Logout failed' });
+    }
+    res.clearCookie('connect.sid');
+    res.json({ message: 'Logged out' });
+  });
+});
+
 
 // =======================
 // HTML PAGES

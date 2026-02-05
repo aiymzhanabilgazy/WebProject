@@ -30,10 +30,18 @@
     </div>
 
     <div class="nav-right">
-        <!-- login -->
-        <a href="/auth" class="nav-icon" title="Login / Register">
+        <!-- LOGIN ICON -->
+        <a href="/auth" id="loginBtn" class="nav-icon" title="Login">
             <i class="ph ph-fingerprint"></i>
         </a>
+
+        <!-- LOGOUT ICON -->
+        <button id="logoutBtn" class="nav-icon" title="Logout" style="display:none;">
+             <i class="ph ph-sign-out"></i>
+        </button>
+
+
+
 
         <!-- direct message -->
         <a href="/messages" class="nav-icon" title="Messages">
@@ -72,7 +80,6 @@
                 </div>
             </div>
         </section>
-
 
 
 
@@ -118,8 +125,49 @@
             <p class="footer-credit">&copy;2025 InspireMe. Designed with ♡</p>
         </div>
     </footer>
-
 <script>
+/* =========================
+   LOGIN / LOGOUT UI (simple)
+========================== */
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const createBtn = document.getElementById('openCreatePost');
+
+async function checkAuth() {
+    try {
+        const res = await fetch('/auth/me', { credentials: 'same-origin' });
+        if (res.ok) {
+            // Пользователь залогинен
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-flex';
+            if (createBtn) createBtn.style.display = 'inline-flex';
+        } else {
+            // Гость
+            loginBtn.style.display = 'inline-flex';
+            logoutBtn.style.display = 'none';
+            if (createBtn) createBtn.style.display = 'none';
+        }
+    } catch (err) {
+        console.error("Auth check failed", err);
+    }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    const res = await fetch('/auth/logout', { 
+        method: 'POST', 
+        credentials: 'same-origin' 
+    });
+    if (res.ok) {
+        // После выхода лучше перезагрузить страницу, чтобы сбросить состояние приложения
+        window.location.href = '/'; 
+    }
+});
+
+checkAuth();
+
+/* =========================
+   LOAD POSTS (public)
+========================== */
 const container = document.getElementById('pinsContainer');
 
 fetch('/api/posts')
@@ -129,51 +177,58 @@ fetch('/api/posts')
     posts.forEach(post => {
       container.innerHTML += `
         <div class="pin">
-          <img src="${post.imageUrl}">
+          <img src="${post.imageUrl}" alt="post image">
           <div class="pin-info">
             <p class="author">${post.author}</p>
             <p class="story">${post.description}</p>
-
-            ${
-              post.userId === localStorage.getItem('userId')
-                ? `<button onclick="deletePost('${post._id}')">🗑</button>`
-                : ''
-            }
           </div>
         </div>
       `;
     });
   });
 
-function deletePost(id) {
-  fetch('/api/posts/' + id, { method: 'DELETE' })
-    .then(newPost => {allPosts.unshift(newPost);
-        visibleCount++;
-        renderPins();
-    });
-}
+/* =========================
+   CREATE POST (only if logged)
+========================== */
 const openBtn = document.getElementById('openCreatePost');
 const form = document.getElementById('createPostForm');
 
-openBtn.addEventListener('click', () => {
-  form.style.display = form.style.display === 'none' ? 'block' : 'none';
-});
+if (openBtn && form) {
+  openBtn.addEventListener('click', () => {
+    if (openBtn.style.display === 'none') return;
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  });
+}
 
-document.getElementById('submitPost').addEventListener('click', () => {
-  fetch('/api/posts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      author: document.getElementById('postAuthor').value,
-      description: document.getElementById('postDescription').value,
-      imageUrl: document.getElementById('postImage').value,
-      category: document.getElementById('postCategory').value,
-      userId: localStorage.getItem('userId') || 'demo-user'
-    })
-  }).then(() => location.reload());
-});
+const submitBtn = document.getElementById('submitPost');
 
+if (submitBtn) {
+  submitBtn.addEventListener('click', () => {
+    const author = document.getElementById('postAuthor').value.trim();
+    const description = document.getElementById('postDescription').value.trim();
+    const imageUrl = document.getElementById('postImage').value.trim();
+    const category = document.getElementById('postCategory').value;
+
+    if (!author || !description || !imageUrl) {
+      alert('Please fill all fields');
+      return;
+    }
+
+    fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ author, description, imageUrl, category })
+    }).then(res => {
+      if (res.ok) location.reload();
+      else alert('Failed to create post');
+    });
+  });
+}
 </script>
+
+
+
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
