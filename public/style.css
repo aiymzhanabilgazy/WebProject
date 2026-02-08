@@ -162,8 +162,193 @@ body {
     position: absolute;
     inset: 0;
     background: rgba(124, 22, 22, 0.9);
-    z-index: 1;
+    z-index: 0; /* 👈 было 1 — ЭТО КЛЮЧ */
 }
+/* ========================= */
+/* SIMPLE GRAFFITI */
+
+.banner-graffiti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* SHAPES */
+.shape {
+  position: absolute;
+  fill: #f3e7dd;
+  opacity: 0.9;
+  filter: blur(0.3px);
+}
+
+/* ribbons */
+.ribbon {
+  width: 420px;
+  top: 60px;
+  right: -120px;
+}
+
+.ribbon.small {
+  width: 300px;
+  top: 220px;
+  right: 80px;
+  fill: #e8bdb3;
+}
+
+/* circles */
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: #f6efe9;
+  opacity: 0.9;
+}
+
+.circle.big {
+  width: 120px;
+  height: 120px;
+  right: 260px;
+  bottom: 120px;
+}
+
+.circle.medium {
+  width: 80px;
+  height: 80px;
+  right: 60px;
+  top: 120px;
+  background: #e8bdb3;
+}
+
+.circle.small {
+  width: 50px;
+  height: 50px;
+  right: 140px;
+  bottom: 60px;
+}
+/* EXTRA CIRCLES */
+
+.circle.x1 {
+  width: 90px;
+  height: 90px;
+  right: 200px;
+  top: 40px;
+  background: #f6efe9;
+}
+
+.circle.x2 {
+  width: 60px;
+  height: 60px;
+  right: 20px;
+  top: 180px;
+  background: #e8bdb3;
+}
+
+.circle.x3 {
+  width: 40px;
+  height: 40px;
+  right: 320px;
+  bottom: 40px;
+  background: #f3e7dd;
+}
+
+.circle.x4 {
+  width: 70px;
+  height: 70px;
+  right: 120px;
+  bottom: 200px;
+  background: #e8bdb3;
+}
+/* ========================= */
+/* BIG CIRCLES */
+
+.circle.big {
+  border-radius: 50%;
+  opacity: 0.95;
+  filter: blur(0.3px);
+  box-shadow:
+    inset -25px -25px 50px rgba(255,255,255,0.6),
+    inset 25px 25px 60px rgba(0,0,0,0.18),
+    0 40px 80px rgba(0,0,0,0.35);
+}
+
+/* positions */
+.circle.big.b1 {
+  width: 260px;
+  height: 260px;
+  right: 320px;
+  top: 40px;
+  background: #f4eadf;
+}
+
+.circle.big.b2 {
+  width: 220px;
+  height: 220px;
+  right: 40px;
+  bottom: 140px;
+  background: #e8bdb3;
+}
+
+.circle.big.b3 {
+  width: 180px;
+  height: 180px;
+  right: 180px;
+  bottom: -40px; /* чуть вылезает */
+  background: #f6efe9;
+}
+/* ========================= */
+/* LIVE FLOAT ANIMATIONS */
+
+@keyframes floatSlow {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(-12px, -18px) scale(1.02);
+  }
+  70% {
+    transform: translate(10px, -8px) scale(0.98);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes floatDiagonal {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-20px, 12px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+.circle.big {
+  animation: floatSlow 26s ease-in-out infinite;
+}
+
+/* чтобы они не двигались одинаково */
+.circle.big.b1 {
+  animation-delay: 0s;
+}
+
+.circle.big.b2 {
+  animation-delay: 6s;
+}
+
+.circle.big.b3 {
+  animation-delay: 12s;
+}
+.ribbon {
+  animation: floatDiagonal 30s ease-in-out infinite;
+}
+
+.ribbon.small {
+  animation-delay: 10s;
+}
+
+
 
 /* ========================= */
 /* BANNER CONTENT */
@@ -233,61 +418,121 @@ body {
     transform: translateY(-8px);
 }
 
-/* ========================= */
-/* PINS */
+/* ===== CREATE POST MODAL ===== */
+.create-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.create-modal {
+  background: #fff;
+  width: 45%;
+  min-width: 420px;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+}
+
+.create-modal h2 {
+  margin-bottom: 10px;
+}
+
+.create-modal input,
+.create-modal textarea,
+.create-modal select {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.create-modal textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.publish-btn {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 30px;
+  border: none;
+  background: #8d2b38;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
 
 .pins {
-    padding: 40px;
-    column-count: 4;
-    column-gap: 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px;
 }
 
-.pin {
-    break-inside: avoid;
-    margin-bottom: 22px;
-    border-radius: 20px;
-    overflow: hidden;
-    background: #FFFFFF;
-    box-shadow: 0 14px 40px rgba(107, 0, 13, 0.22);
-    transition: transform 0.25s ease;
+.pin.polaroid {
+  background: white;
+  border-radius: 18px;
+  padding: 14px 14px 30px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.08),
+    0 2px 6px rgba(0,0,0,0.05);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
-
-.pin:hover {
-    transform: scale(1.02);
+.pin.polaroid:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.12);
 }
-
-.pin img {
-    width: 100%;
-    display: block;
-}
-
 .pin-info {
-    padding: 14px 16px;
+  margin-top: 10px;
 }
 
-.author {
-    font-size: 15px;
-    font-weight: 600;
-    color: #A30015;
+.pin.polaroid img {
+  width: 100%;
+  height: 260px;          /* ВАЖНО */
+  object-fit: cover;     /* ВАЖНО */
+  border-radius: 10px;
 }
-
-.story,
-.location {
-    font-size: 14px;
-    line-height: 1.5;
-}
-
 .pin-actions ion-icon {
-    font-size: 22px;
-    margin-left: 12px;
-    cursor: pointer;
-    color: #A30015;
-    opacity: 0.85;
+  color: #2c2c2c;
+  font-size: 20px;
 }
 
-.pin-actions ion-icon:hover {
-    opacity: 0.6;
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 20px;
+  z-index: 9999;
 }
+.like-icon.liked {
+  color: red;
+}
+
+
+
 
 /* ========================= */
 /* SHOW MORE */

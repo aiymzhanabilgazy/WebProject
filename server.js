@@ -166,7 +166,6 @@ app.delete('/api/users/:id', async (req, res) => {
     if (!result.deletedCount) {
       return res.status(404).json({ error: 'User not found' });
     }
-
     res.sendStatus(204);
   } catch {
     res.status(500).json({ error: 'Server error' });
@@ -182,6 +181,35 @@ app.get('/api/posts', async (req, res) => {
   const posts = await db.collection('posts').find().toArray();
   res.json(posts);
 });
+// ❤️ GET LIKED POSTS
+app.get('/api/posts/liked', isAuthenticated, async (req, res) => {
+  const db = getDB();
+  const userId = req.session.userId;
+
+  const posts = await db.collection('posts').find({
+    likes: userId
+  }).toArray();
+
+  res.json(posts);
+});
+app.get('/likes', (req, res) =>
+  res.sendFile(path.join(__dirname, 'views', 'likes.html'))
+);
+// 🔖 GET SAVED POSTS
+app.get('/api/posts/saved', isAuthenticated, async (req, res) => {
+  const db = getDB();
+  const userId = req.session.userId;
+
+  const posts = await db.collection('posts')
+    .find({ saved: userId })
+    .toArray();
+
+  res.json(posts);
+});
+
+app.get('/saved', (req, res) =>
+  res.sendFile(path.join(__dirname, 'views', 'saved.html'))
+);
 
 app.get('/api/posts/:id', async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
@@ -203,7 +231,9 @@ app.post('/api/posts', isAuthenticated, async (req, res) => {
   const result = await db.collection('posts').insertOne({
     ...req.body,
     createdAt: new Date(),
-    userId: req.session.userId
+    userId: req.session.userId,
+    likes: [],
+    saved: [] // ⭐️ ВАЖНО
   });
 
   res.status(201).json(result);
@@ -211,13 +241,33 @@ app.post('/api/posts', isAuthenticated, async (req, res) => {
 
 app.put('/api/posts/:id', isAuthenticated, async (req, res) => {
   const db = getDB();
+
+  const post = await db.collection('posts').findOne({
+    _id: new ObjectId(req.params.id)
+  });
+
+  if (!post) {
+    return res.status(404).json({ error: 'Post not found' });
+  }
+
+  if (post.userId.toString() !== req.session.userId.toString()) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
   await db.collection('posts').updateOne(
     { _id: new ObjectId(req.params.id) },
-    { $set: req.body }
+    {
+      $set: {
+        author: req.body.author,
+        imageUrl: req.body.imageUrl,
+        description: req.body.description
+      }
+    }
   );
 
   res.json({ message: 'Post updated' });
 });
+
 
 app.delete('/api/posts/:id', isAuthenticated, async (req, res) => {
   const db = getDB();
@@ -241,16 +291,91 @@ app.delete('/api/posts/:id', isAuthenticated, async (req, res) => {
   res.sendStatus(204);
 });
 
+// ❤️ TOGGLE LIKE
+app.post('/api/posts/:id/like', isAuthenticated, async (req, res) => {
+  const db = getDB();
+  const postId = new ObjectId(req.params.id);
+  const userId = req.session.userId;
+
+  const post = await db.collection('posts').findOne({ _id: postId });
+  if (!post) return res.status(404).json({ error: 'Post not found' });
+
+  const alreadyLiked = post.likes?.some(
+    id => id.toString() === userId.toString()
+  );
+
+  if (alreadyLiked) {
+    // ❌ remove like
+    await db.collection('posts').updateOne(
+      { _id: postId },
+      { $pull: { likes: userId } }
+    );
+  } else {
+    // ❤️ add like
+    await db.collection('posts').updateOne(
+      { _id: postId },
+      { $addToSet: { likes: userId } }
+    );
+  }
+
+  res.json({ liked: !alreadyLiked });
+});
+
+// 🔖 TOGGLE SAVE
+app.post('/api/posts/:id/save', isAuthenticated, async (req, res) => {
+  const db = getDB();
+  const postId = new ObjectId(req.params.id);
+  const userId = req.session.userId;
+
+  const post = await db.collection('posts').findOne({ _id: postId });
+  if (!post) return res.status(404).json({ error: 'Post not found' });
+
+  const alreadySaved = post.saved?.some(
+    id => id.toString() === userId.toString()
+  );
+
+  if (alreadySaved) {
+    await db.collection('posts').updateOne(
+      { _id: postId },
+      { $pull: { saved: userId } }
+    );
+  } else {
+    await db.collection('posts').updateOne(
+      { _id: postId },
+      { $addToSet: { saved: userId } }
+    );
+  }
+
+  res.json({ saved: !alreadySaved });
+});
+
+
+
+
 
 // =======================
 // LOGIN
 // =======================
-app.get('/auth/me', (req, res) => {
+app.get('/auth/me', async (req, res) => {
   if (!req.session.userId) {
-    return res.status(401).json({ authenticated: false });
+    return res.status(401).json(null);
   }
-  res.json({ authenticated: true });
+
+  const db = getDB();
+
+  const user = await db.collection('users').findOne(
+    { _id: new ObjectId(req.session.userId) },
+    { projection: { password: 0 } }
+  );
+
+  if (!user) {
+    return res.status(401).json(null);
+  }
+
+  res.json(user); // 🔥 ТОЛЬКО user, БЕЗ authenticated
 });
+
+
 
 
 app.post('/auth/login', async (req, res) => {
@@ -293,6 +418,9 @@ app.post('/auth/logout', (req, res) => {
     res.json({ message: 'Logged out' });
   });
 });
+
+
+
 
 
 // =======================

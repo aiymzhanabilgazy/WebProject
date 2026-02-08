@@ -10,9 +10,6 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
 
-    
-
-    
 </head>
 <body>
     <header class="navbar">
@@ -41,8 +38,6 @@
         </button>
 
 
-
-
         <!-- direct message -->
         <a href="/messages" class="nav-icon" title="Messages">
             <ion-icon name="paper-plane-outline"></ion-icon>
@@ -55,8 +50,8 @@
             </button>
 
             <div class="dropdown-content">
-                <a href="#">Likes</a>
-                <a href="#">Saved</a>
+                <a href="/likes">Likes</a>
+                <a href="/saved">Saved</a>
                 <a href="#">Comments</a>
             </div>
         </div>
@@ -67,6 +62,29 @@
     <main>
         <section class="banner">
             <img src="/images/banner.jpg" alt="banner">
+
+            <!-- SIMPLE GRAFFITI -->
+             <div class="banner-graffiti">
+                 <svg class="shape ribbon" viewBox="0 0 500 200">
+                    <path d="
+                    M0 120 C120 40, 260 220, 420 100 L420 140 C260 260, 120 100, 0 160 Z"/>
+                </svg>
+                 <svg class="shape ribbon small" viewBox="0 0 400 160">
+                    <path d="
+                    M0 80 C100 20, 220 160, 360 80 L360 110 C220 180, 100 80, 0 130 Z"/>
+                </svg>
+                <div class="circle big"></div>
+                <div class="circle medium"></div>
+                <div class="circle small"></div>
+                <div class="circle x1"></div>
+                <div class="circle x2"></div>
+                <div class="circle x3"></div>
+                <div class="circle x4"></div>
+                <div class="circle big b1"></div>
+                <div class="circle big b2"></div>
+                <div class="circle big b3"></div>
+            </div>
+
             <div class="banner-content">
                 <div class="banner-sections">
                     <a href="/creativity" class="banner-card">
@@ -81,30 +99,26 @@
             </div>
         </section>
 
-
-
-        <!--pics-->
         <section class="pins" id="pinsContainer"></section>
-
-        <!-- Замените секцию create-post-container и форму -->
+        
         <div class="create-post-container">
             <button id="openCreatePost" class="create-post-btn">+ Create post</button>
         </div>
-
-        <div id="createPostForm" style="display:none; margin:20px; background: white; padding: 20px; border-radius: 10px;">
-            <input id="postAuthor" placeholder="Your name" />
-            <input id="postImage" placeholder="Image URL (e.g. /images/pin1.jpg)" />
-            <textarea id="postDescription" placeholder="Description"></textarea>
-            <select id="postCategory">
-                <option value="creativity">Creativity</option>
-                <option value="locations">Locations</option>
-            </select>
-            <input type="hidden" id="postId" />
-            <button id="submitPost">Publish</button>
-            <button id="cancelEdit" style="display:none;">Cancel</button>
+        
+        <div id="createOverlay" class="create-overlay">
+            <div class="create-modal">
+                <button id="closeCreate" class="close-btn">✕</button>
+                <h2>Create post</h2>
+                <input id="postAuthor" placeholder="Your name" />
+                <input id="postImage" placeholder="Image URL" />
+                <textarea id="postDescription" placeholder="Description"></textarea>
+                <select id="postCategory">
+                    <option value="creativity">Creativity</option>
+                    <option value="locations">Locations</option>
+                </select>
+                <button id="submitPost" class="publish-btn">Publish</button>
+            </div>
         </div>
-
-
 
         <!--show more button-->
         <div class="show-more-container">
@@ -170,67 +184,16 @@ checkAuth();
 ========================== */
 const container = document.getElementById('pinsContainer');
 
-fetch('/api/posts')
-  .then(res => res.json())
-  .then(posts => {
-    container.innerHTML = '';
-    posts.forEach(post => {
-      container.innerHTML += `
-        <div class="pin">
-          <img src="${post.imageUrl}" alt="post image">
-          <div class="pin-info">
-            <p class="author">${post.author}</p>
-            <p class="story">${post.description}</p>
-          </div>
-        </div>
-      `;
-    });
-  });
-
-/* =========================
-   CREATE POST (only if logged)
-========================== */
-const openBtn = document.getElementById('openCreatePost');
-const form = document.getElementById('createPostForm');
-
-if (openBtn && form) {
-  openBtn.addEventListener('click', () => {
-    if (openBtn.style.display === 'none') return;
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-  });
-}
-
-const submitBtn = document.getElementById('submitPost');
-
-if (submitBtn) {
-  submitBtn.addEventListener('click', () => {
-    const author = document.getElementById('postAuthor').value.trim();
-    const description = document.getElementById('postDescription').value.trim();
-    const imageUrl = document.getElementById('postImage').value.trim();
-    const category = document.getElementById('postCategory').value;
-
-    if (!author || !description || !imageUrl) {
-      alert('Please fill all fields');
-      return;
-    }
-
-    fetch('/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
-      body: JSON.stringify({ author, description, imageUrl, category })
-    }).then(res => {
-      if (res.ok) location.reload();
-      else alert('Failed to create post');
-    });
-  });
-}
 </script>
 
 
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="/js/renderPin.js"></script>
+<script src="/js/home.js"></script>
+<script src="/js/createPost.js"></script>
+
 
 </body>
 </html>

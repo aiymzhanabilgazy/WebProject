@@ -197,7 +197,13 @@ input:focus {
     overflow: hidden;
     transition: transform 0.6s ease-in-out;
     z-index: 100;
+    pointer-events: none; /* ВАЖНО */
 }
+.slide-panel-wrapper button {
+    pointer-events: auto; /* ВАЖНО */
+}
+
+
 
 .auth-wrapper.panel-active .slide-panel-wrapper {
     transform: translateX(-100%);
@@ -211,11 +217,16 @@ input:focus {
     height: 100%;
     width: 200%;
     transition: transform 0.6s ease-in-out;
+    
 }
 
 .auth-wrapper.panel-active .slide-panel {
     transform: translateX(50%);
 }
+
+
+
+
 
 .panel-content {
     position: absolute;

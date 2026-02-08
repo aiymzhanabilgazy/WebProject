@@ -1,203 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Locations | InspireMe</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Creativity | InspireMe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/locations.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/creativity.css">
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="navbar">
-    <div class="nav-left">
-        <a href="/" class="nav-icon" title="Home">
-            <ion-icon name="home-outline"></ion-icon>
-        </a>
-
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-    </div>
-
-    <div class="logo">Inspire Me | Creativity & Locations</div>
-
-    <div class="nav-right">
-        <div class="menu-dropdown">
-            <button class="dropbtn">Menu</button>
-            <div class="dropdown-content">
-                <a href="/creativity">Creativity</a>
-                <a href="/locations">Locations</a>
-            </div>
-        </div>
-    </div>
+  <div class="nav-left">
+    <a href="/">Home</a>
+    <a href="/creativity">Creativity</a>
+    <a href="/locations">Locations</a>
+  </div>
+  <div class="logo">Inspire Me</div>
 </header>
 
 <main>
 
-<section class="locations-header">
-    <h1>Cozy Locations ☕</h1>
-    <p>Places to relax, study and enjoy atmosphere</p>
+<section class="page-header">
+  <h1>🎨 Locations</h1>
+  <p>Cafes,nature and just Relax</p>
 </section>
 
-<!-- ADD POST -->
+<!-- CREATE -->
 <div class="create-post-container">
-    <button id="openCreatePost" class="create-post-btn">+ Add location</button>
+  <button id="openCreatePost" class="create-post-btn">+ Add location</button>
 </div>
 
-<div id="createPostForm" style="display:none; margin:20px; background:white; padding:20px; border-radius:10px;">
+<!-- OVERLAY -->
+<div id="createOverlay" class="create-overlay">
+  <div class="create-modal">
+    <button id="closeCreate" class="close-btn">✕</button>
+
+    <h2>Add location</h2>
+
     <input id="postAuthor" placeholder="Place name" />
     <input id="postImage" placeholder="Image URL" />
     <textarea id="postDescription" placeholder="Description"></textarea>
-    <input type="hidden" id="postId" />
 
-     <select id="postCategory">
-        <option value="locations">📍 Location</option>
-        <option value="creativity">🎨 Creativity</option>
-    </select>
+    <!-- ВАЖНО: категория фиксирована -->
+    <input type="hidden" id="postCategory" value="locations">
 
-    <button id="submitPost">Publish</button>
-    <button id="cancelEdit" style="display:none;">Cancel</button>
+    <button id="submitPost" class="publish-btn">Publish</button>
+  </div>
 </div>
 
+
 <!-- PINS -->
-<section class="pins locations-pins" id="pinsContainer"></section>
+<section class="pins" id="pinsContainer"></section>
 
 </main>
 
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="footer-content">
-        <p class="footer-title">Inspire Me ✧ Creativity & Locations</p>
-        <div class="footer-links">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/creativity">Creativity</a>
-            <a href="/locations">Locations</a>
-        </div>
-        <p class="footer-credit">Assignment 1 — Week 1</p>
-    </div>
-</footer>
-
-<script>
-    if (!localStorage.getItem('userId')) {
-  localStorage.setItem('userId', crypto.randomUUID());
-}
-const container = document.getElementById('pinsContainer');
-
-
-async function loadPosts() {
-    const res = await fetch('/api/posts?category=locations');
-    const posts = await res.json();
-    renderPosts(posts);
-}
-
-function renderPosts(posts) {
-  container.innerHTML = posts.map(post => `
-    <div class="pin location-pin">
-      <img src="${post.imageUrl}">
-      <div class="pin-info">
-        <p class="author">${post.author}</p>
-        <p class="story">${post.description}</p>
-        <p class="location">📍 Location</p>
-
-        <div class="pin-actions">
-          <ion-icon name="heart-outline"></ion-icon>
-          <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-
-          ${post.userId === loggedUser._id ? `
-            <button onclick="editPost('${post._id}')">✏️</button>
-            <button onclick="deletePost('${post._id}')">🗑️</button>
-            ` : ''}
-
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-
-document.getElementById('openCreatePost').onclick = () => {
-    document.getElementById('createPostForm').style.display = 'block';
-
-};
-
-document.getElementById('submitPost').addEventListener('click', async () => {
-
-  const postId = document.getElementById('postId').value;
-
-  const postData = {
-    author: loggedUser.name,
-    imageUrl,
-    description,
-    category,
-    userId: loggedUser._id
-    };
-
-
-  if (postId) {
-    // UPDATE
-    await fetch(`/api/posts/${postId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(postData)
-    });
-  } else {
-    // CREATE
-    await fetch('/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(postData)
-    });
-  }
-
-  document.getElementById('createPostForm').style.display = 'none';
-  document.getElementById('postId').value = '';
-  document.getElementById('submitPost').textContent = 'Publish';
-
-  loadPosts();
-});
-
-
-loadPosts();
-async function deletePost(id) {
-  if (!confirm('Delete this location?')) return;
-
-  await fetch(`/api/posts/${id}`, {
-    method: 'DELETE'
-  });
-
-  loadPosts();
-}
-
-async function editPost(id) {
-  const res = await fetch(`/api/posts/${id}`);
-  const post = await res.json();
-
-  document.getElementById('postAuthor').value = post.author;
-  document.getElementById('postImage').value = post.imageUrl;
-  document.getElementById('postDescription').value = post.description;
-  document.getElementById('postCategory').value = post.category;
-  document.getElementById('postId').value = post._id;
-
-  document.getElementById('createPostForm').style.display = 'block';
-  document.getElementById('submitPost').textContent = 'Update';
-}
-const loggedUser = JSON.parse(localStorage.getItem('user'));
-
-if (!loggedUser) {
-  alert('Please log in');
-  window.location.href = '/auth';
-}
-
-const userId = loggedUser._id;
-
-
-</script>
+<script src="/js/renderPin.js"></script>
+<script src="/js/locations.js"></script>
+<script src="/js/createPost.js"></script>
 
 </body>
 </html>

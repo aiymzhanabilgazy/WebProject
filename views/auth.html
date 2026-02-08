@@ -110,9 +110,48 @@ document.getElementById('loginSubmit').addEventListener('click', async () => {
   window.location.href = '/';
 });
 </script>
+<script>
+document.getElementById('registerSubmit').addEventListener('click', async () => {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const password = document.getElementById('regPassword').value.trim();
 
+  if (!name || !email || !password) {
+    alert('Fill all fields');
+    return;
+  }
 
+  const res = await fetch('/api/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password })
+  });
 
+  const data = await res.json();
+
+  if (!res.ok) {
+    alert(data.error || 'Registration failed');
+    return;
+  }
+
+  alert('Account created');
+  document.getElementById('authWrapper').classList.remove('panel-active');
+});
+</script>
+
+<script>
+const authWrapper = document.getElementById('authWrapper');
+const registerBtn = document.getElementById('registerBtn');
+const loginBtn = document.getElementById('loginBtn');
+
+registerBtn.addEventListener('click', () => {
+  authWrapper.classList.add('panel-active');
+});
+
+loginBtn.addEventListener('click', () => {
+  authWrapper.classList.remove('panel-active');
+});
+</script>
 
 </body>
 </html>
