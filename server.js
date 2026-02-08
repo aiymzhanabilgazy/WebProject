@@ -8,10 +8,13 @@ const { connectDB, getDB } = require('./db');
 const session = require('express-session');
 const MongoStore = require('connect-mongo').default;
 const bcrypt = require('bcrypt');
+const passport = require('passport');
+require('./passport'); 
+
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
+
 
 // static
 app.use(express.static('public'));
@@ -40,6 +43,21 @@ app.use(session({
 }
 
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+// GitHub login
+app.get('/auth/github',
+  passport.authenticate('github', { scope: ['user:email'] })
+);
+
+// GitHub callback
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/auth' }),
+  (req, res) => {
+    req.session.userId = req.user._id; // 🔥 ВАЖНО
+    res.redirect('/');
+  }
+);
 
 
 // =======================

@@ -75,6 +75,7 @@ body {
     cursor: pointer;
 }
 
+
 .auth-icon:hover {
     color: #6B000D;
 }
@@ -85,6 +86,18 @@ body {
   letter-spacing: 0.4px;
   white-space: nowrap;
 }
+.user-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.user-icon ion-icon {
+  font-size: 26px;
+  color: #8b0000; /* бордовый */
+}
+
 
 
 /* DROPDOWN */
@@ -573,6 +586,98 @@ body {
 .contact h2 {
     text-align: center;
     color: #A30015;
+}
+/* ========================= */
+/* Side-Panel */
+.user-panel {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+  transition: right 0.3s ease;
+  z-index: 2000;
+}
+
+.user-panel.open {
+  right: 0;
+}
+
+.user-panel-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding:24px;
+}
+
+.panel-footer {
+  margin-top: auto; 
+  padding-top: 20px;
+  position:sticky;
+}
+
+
+
+.panel-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.panel-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  color: #333;
+}
+
+.panel-link ion-icon {
+  font-size: 18px;
+  color: #8b0000; /* твой бордовый */
+}
+
+.panel-link:hover {
+  opacity: 0.7;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 14px;
+  background: #8b0000;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logout-btn:hover {
+  background: #a00000;
+}
+.panel-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.close-panel-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #444;
+  opacity: 0.6;
+}
+
+.close-panel-btn:hover {
+  opacity: 1;
 }
 
 /* ========================= */

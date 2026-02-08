@@ -260,24 +260,62 @@ input:focus {
     margin: 25px 0;
 }
 
-.social-links a {
-    border: 2px solid #A30015;
-    border-radius: 50%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 8px;
-    height: 45px;
-    width: 45px;
-    color: #A30015;
-    transition: 0.3s ease;
+/* ========================= */
+/* SOCIAL LOGIN BUTTONS */
+/* ========================= */
+.social-links {
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.social-links a:hover {
-    background: #A30015;
-    color: #FFFFFF;
-    transform: translateY(-3px);
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    padding: 13px;
+
+    border-radius: 30px;
+    border: 1px solid #E6E1DF;
+    background: #FFFFFF;
+
+    font-size: 14px;
+    font-weight: 500;
+    color: #2F1B1F;
+    text-decoration: none;
+
+    transition: all 0.2s ease;
 }
+
+.social-btn i {
+    font-size: 18px;
+}
+
+.social-btn:hover {
+    background: #FDF5F2;
+    transform: translateY(-2px);
+}
+
+/* optional — subtle brand hint */
+.social-btn.google i {
+    color: #DB4437;
+}
+
+.social-btn.github i {
+    color: #333333;
+}
+.auth-hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #8C6A6F;
+}
+
+
 
 footer {
     width: 100%;
