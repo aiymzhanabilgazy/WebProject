@@ -8,6 +8,7 @@ const { connectDB } = require('./configuration/db');
 require('./configuration/passport');
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 
 // static
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // session
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret123',
   resave: false,
@@ -28,10 +30,12 @@ app.use(session({
   }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,
+    sameSite: 'none',
     maxAge: 1000 * 60 * 60
   }
 }));
+
 
 // passport
 app.use(passport.initialize());

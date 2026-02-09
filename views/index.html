@@ -200,7 +200,7 @@ async function loadUserPanel() {
     if (!res.ok) return;
 
     const user = await res.json();
-    currentUser = user; // 🔥 СОХРАНЯЕМ ГЛОБАЛЬНО
+    currentUser = user;
 
     const name =
       user.name ||
