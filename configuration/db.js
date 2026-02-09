@@ -1,20 +1,17 @@
 const { MongoClient } = require('mongodb');
 
-const url =
-  "mongodb+srv://aiymzhan_mongo:webpassword123@cluster0.wolwvj3.mongodb.net/web_app?retryWrites=true&w=majority";
-const dbName = 'web_app';
-
-const client = new MongoClient(url);
+const client = new MongoClient(process.env.MONGO_URI);
 
 let db;
 
 async function connectDB() {
   try {
     await client.connect();
-    db = client.db(dbName);
-    console.log('MongoDB connected');
+    db = client.db(); // имя БД уже есть в URI
+    console.log('✅ MongoDB connected');
   } catch (err) {
-    console.error('MongoDB connection error:', err);
+    console.error('❌ MongoDB connection error:', err.message);
+    process.exit(1);
   }
 }
 
