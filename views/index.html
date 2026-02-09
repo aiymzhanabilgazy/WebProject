@@ -9,39 +9,42 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
 
 </head>
 <body>
     <header class="navbar">
-    <div class="nav-left">
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-    </div>
+        <div class="nav-left">
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+       </div>
 
-    <div class="logo">
-        Inspire Me | Creativity & locations
-    </div>
+        <div class="logo">
+           Inspire Me | Creativity & locations
+        </div>
 
-    <div class="nav-right">
-        <a href="/" class="nav-icon" title="Home">
-            <ion-icon name="home-outline"></ion-icon>
-        </a>
+        <div class="nav-right">
+             <a href="/" class="nav-icon" title="Home">
+                <ion-icon name="home-outline"></ion-icon>
+            </a>
         <!-- LOGIN ICON -->
-        <a href="/auth" id="loginBtn" class="nav-icon" title="Login">
-            <i class="ph ph-fingerprint"></i>
-        </a>
+            <a href="/auth" id="loginBtn" class="nav-icon" title="Login">
+                <i class="ph ph-fingerprint"></i>
+            </a>
 
         <!-- PERSON ICON -->
-        <button id="userBtn" class="nav-icon user-icon" title="Profile" style="display:none;">
-            <ion-icon name="person-outline"></ion-icon>
-        </button>
-
+            <button id="userBtn" class="nav-icon user-icon" title="Profile" style="display:none;">
+               <ion-icon name="person-outline"></ion-icon>
+            </button>
+ 
         <!-- direct message -->
-        <a href="/messages" class="nav-icon" title="Messages">
-            <ion-icon name="paper-plane-outline"></ion-icon>
+            <a href="/messages" class="nav-icon" title="Messages">
+        <ion-icon name="paper-plane-outline"></ion-icon>
         </a>
-    </div>
-</header>
+
+        </div>
+    </header>
 
     <!--main-->
     <main>
@@ -119,29 +122,45 @@
                 <ion-icon name="chevron-forward-outline"></ion-icon>
             </button>
             </div>
+            <div class="panel-scroll">
+                <div class="panel-user">
+                    <div class="avatar" id="panelAvatar">?</div>
+                    <div class="user-info">
+                        <span class="user-name" id="panelUserName">User</span>
+                        <span class="user-email" id="panelUserEmail">email@gmail.com</span>
+                    </div>
+                </div>
+                    <a href="/my-posts" class="panel-link">
+                        <ion-icon name="images-outline"></ion-icon>
+                        <span>My posts</span>
+                    </a>
 
-            <h3 class="panel-title">Profile</h3>
-                <a href="/likes" class="panel-link">
-                <ion-icon name="heart-outline"></ion-icon>
-                <span>Likes</span>
-                </a>
+                    <a href="/likes" class="panel-link">
+                    <ion-icon name="heart-outline"></ion-icon>
+                    <span>Likes</span>
+                    <span class="count" id="likesCount">0</span>
+                    </a>
 
-                <a href="/saved" class="panel-link">
-                <ion-icon name="bookmark-outline"></ion-icon>
-                <span>Saved</span>
-                </a>
+                    <a href="/saved" class="panel-link">
+                    <ion-icon name="bookmark-outline"></ion-icon>
+                    <span>Saved</span>
+                    <span class="count" id="savedCount">0</span>
+                    </a>
 
-                <a href="/privacy" class="panel-link">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <span>Privacy</span>
-                </a>
+                    <a href="/admin" class="panel-link admin-only" style="display:none">
+                        <ion-icon name="shield-outline"></ion-icon>
+                        <span>Admin panel</span>
+                    </a>
 
-
-
+                    <a href="/privacy" class="panel-link">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <span>Privacy</span>
+                    </a>
+            </div>
 
             <div class="panel-footer">
             <button id="logoutBtn" class="logout-btn">
-                🚪 Log out
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </button>
             </div>
 
@@ -171,27 +190,79 @@ const loginBtn = document.getElementById('loginBtn');
 const userBtn = document.getElementById('userBtn');
 const createBtn = document.getElementById('openCreatePost');
 
-async function checkAuth() {
-    try {
-        const res = await fetch('/auth/me', { credentials: 'same-origin' });
-        if (res.ok) {
-            // Пользователь залогинен
-            loginBtn.style.display = 'none';
-            userBtn.style.display = 'inline-flex';
-            if (createBtn) createBtn.style.display = 'inline-flex';
-        } else {
-            // Гость
-            loginBtn.style.display = 'inline-flex';
-            userBtn.style.display = 'none';
-            if (createBtn) createBtn.style.display = 'none';
-        }
-    } catch (err) {
-        console.error("Auth check failed", err);
-    }
-    
-}
 const userPanel = document.getElementById('userPanel');
 const logoutBtn = document.getElementById('logoutBtn');
+
+let currentUser = null;
+
+async function loadUserPanel() {
+  try {
+    const res = await fetch('/auth/me', { credentials: 'same-origin' });
+    if (!res.ok) return;
+
+    const user = await res.json();
+    currentUser = user; // 🔥 СОХРАНЯЕМ ГЛОБАЛЬНО
+
+    const name =
+      user.name ||
+      user.email?.split('@')[0] ||
+      'User';
+
+    document.getElementById('panelUserName').textContent = name;
+    document.getElementById('panelUserEmail').textContent = user.email || '';
+    document.getElementById('panelAvatar').textContent =
+      name.charAt(0).toUpperCase();
+
+    // ✅ ПРОВЕРКА АДМИНА — ТУТ, А НЕ СНАРУЖИ
+    if (user.role === 'admin') {
+      document
+        .querySelectorAll('.admin-only')
+        .forEach(el => el.style.display = 'flex');
+    }
+
+  } catch (err) {
+    console.error('Failed to load user panel', err);
+  }
+}
+
+async function checkAuth() {
+  try {
+    const res = await fetch('/auth/me', { credentials: 'same-origin' });
+
+    if (res.ok) {
+      loginBtn.style.display = 'none';
+      userBtn.style.display = 'inline-flex';
+      if (createBtn) createBtn.style.display = 'inline-flex';
+
+      loadUserPanel();
+      loadCounts();
+    } else {
+      loginBtn.style.display = 'inline-flex';
+      userBtn.style.display = 'none';
+      if (createBtn) createBtn.style.display = 'none';
+    }
+  } catch (err) {
+    console.error("Auth check failed", err);
+  }
+}
+
+
+async function loadCounts() {
+  const likes = await fetch('/api/posts/liked', { credentials: 'same-origin' });
+  if (likes.ok) {
+    const data = await likes.json();
+    document.getElementById('likesCount').textContent = data.length;
+  }
+
+  const saved = await fetch('/api/posts/saved', { credentials: 'same-origin' });
+  if (saved.ok) {
+    const data = await saved.json();
+    document.getElementById('savedCount').textContent = data.length;
+  }
+}
+
+
+
 
 // открыть / закрыть панель
 userBtn.addEventListener('click', () => {
@@ -225,8 +296,6 @@ const closePanelBtn = document.getElementById('closePanel');
 closePanelBtn.addEventListener('click', () => {
   userPanel.classList.remove('open');
 });
-
-
 
 checkAuth();
 

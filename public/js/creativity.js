@@ -24,8 +24,17 @@ async function loadAuth() {
    LOAD CREATIVITY POSTS
 ===================== */
 async function loadCreativityPins() {
-  const res = await fetch('/api/posts');
-  const posts = await res.json(); // ✅ ТОЛЬКО посты
+  const res = await fetch('/api/posts', {
+    credentials: 'same-origin'
+  });
+
+  if (!res.ok) {
+    console.error('Failed to load posts');
+    return;
+  }
+
+  const data = await res.json();
+  const posts = data.posts; // 🔥 ВОТ ЭТО ГЛАВНОЕ
 
   const container = document.getElementById('pinsContainer');
   container.innerHTML = '';
@@ -36,6 +45,7 @@ async function loadCreativityPins() {
       container.innerHTML += renderPin(post, loggedUser);
     });
 }
+
 
 /* =====================
    DELETE
@@ -150,4 +160,3 @@ async function toggleSave(postId, icon) {
     showToast('❌ Removed from saved');
   }
 }
-

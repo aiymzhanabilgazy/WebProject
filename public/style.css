@@ -308,6 +308,23 @@ body {
   bottom: -40px; /* чуть вылезает */
   background: #f6efe9;
 }
+.nav-left a.active {
+  color: #8b1d2c;
+  font-weight: 600;
+  position: relative;
+}
+
+.nav-left a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #8b1d2c;
+  border-radius: 2px;
+}
+
 /* ========================= */
 /* LIVE FLOAT ANIMATIONS */
 
@@ -589,96 +606,191 @@ body {
 }
 /* ========================= */
 /* Side-Panel */
+/* ===== PANEL CONTAINER ===== */
 .user-panel {
   position: fixed;
   top: 0;
-  right: -300px;
-  width: 300px;
-  height: 100%;
+  right: -100%;
+  width: 320px;
+  height: 100vh;
   background: #ffffff;
-  box-shadow: -5px 0 20px rgba(0,0,0,0.15);
-  transition: right 0.3s ease;
-  z-index: 2000;
+  box-shadow: -12px 0 40px rgba(0,0,0,0.15);
+  transition: right 0.35s ease;
+  z-index: 5000;
+  border-top-left-radius: 22px;
+  border-bottom-left-radius: 22px;
 }
 
 .user-panel.open {
   right: 0;
 }
 
+/* ===== CONTENT ===== */
 .user-panel-content {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding:24px;
 }
-
-.panel-footer {
-  margin-top: auto; 
-  padding-top: 20px;
-  position:sticky;
-}
-
-
-
-.panel-title {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.panel-link {
+/*====User=====*/
+.panel-user {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 16px;
-  color: #333;
+  gap: 14px;
+  padding: 0 24px 24px;
 }
-
-.panel-link ion-icon {
-  font-size: 18px;
-  color: #8b0000; /* твой бордовый */
-}
-
-.panel-link:hover {
-  opacity: 0.7;
-}
-
-.logout-btn {
-  width: 100%;
-  padding: 14px;
-  background: #8b0000;
-  color: white;
-  border: none;
+.count {
+  margin-left: auto;
+  background: #f2eaea;
+  color: #a30015;
+  padding: 4px 10px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
+}
+
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #a30015;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
 }
 
-.logout-btn:hover {
-  background: #a00000;
+.user-info {
+  display: flex;
+  flex-direction: column;
 }
+
+.user-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.user-email {
+  font-size: 13px;
+  color: #888;
+}
+
+
+/* ===== HEADER ===== */
 .panel-header {
+  flex-shrink: 0;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 12px;
+  padding: 18px;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
+
 
 .close-panel-btn {
   background: none;
   border: none;
-  font-size: 22px;
+  font-size: 26px;
   cursor: pointer;
-  color: #444;
-  opacity: 0.6;
+  color: #a30015;
 }
 
-.close-panel-btn:hover {
-  opacity: 1;
+/* ===== TITLE ===== */
+.panel-title {
+  font-size: 22px;
+  font-weight: 600;
+  padding: 0 24px 20px;
 }
+
+/* ===== LINKS ===== */
+.panel-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 20px 14px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #fafafa;
+  text-decoration: none;
+  color: #2f1b1f;
+  font-size: 17px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.panel-link ion-icon {
+  font-size: 24px;
+  color: #a30015;
+}
+
+.panel-link:hover {
+  background: #f2eaea;
+  transform: translateX(6px);
+}
+.my-posts-page {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 80px;
+  color: #555;
+}
+
+.empty-state h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  margin-bottom: 20px;
+}
+
+.create-first-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #7b2d3b;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.create-first-btn:hover {
+  opacity: 0.9;
+}
+
+/* ===== FOOTER ===== */
+.panel-footer {
+  margin-top: auto;
+  padding: 20px;
+}
+.panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+
+.logout-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 18px;
+  border: none;
+  background: #a30015;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #6b000d;
+}
+
 
 /* ========================= */
 /* FOOTER */
@@ -747,4 +859,75 @@ body {
 .create-post-btn:active {
   transform: translateY(0);
   box-shadow: 0 8px 18px rgba(108, 92, 231, 0.4);
+}
+.admin-page {
+  padding: 40px;
+}
+
+.admin-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.user-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.user-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #8b1d2c;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.user-email {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.user-role {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  text-transform: capitalize;
+}
+
+.user-role.admin {
+  background: #e8f0ff;
+  color: #2b5cff;
+}
+
+.user-role.user {
+  background: #f2f2f2;
 }

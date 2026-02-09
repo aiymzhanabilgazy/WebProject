@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Messages</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- main styles -->
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/messages.css">
+
+  <!-- icons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="navbar">
+  <div class="nav-left">
+    <a href="/" class="back-link">← Back</a>
+  </div>
+
+  <div class="logo">
+    Messages
+  </div>
+
+  <div class="nav-right">
+    <!-- пусто специально, чтобы было чисто -->
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="messages-page">
+
+  <div class="chat-wrapper">
+
+    <!-- CHAT HEADER -->
+    <div class="chat-header">
+      <div class="chat-title">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+        <span>Direct messages</span>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div id="messages" class="messages">
+      <!-- сообщения подгружаются через JS -->
+    </div>
+
+    <!-- INPUT -->
+    <form id="sendForm" class="send-form">
+      <input
+        id="messageInput"
+        type="text"
+        placeholder="Type something nice… ✨"
+        autocomplete="off"
+        required
+      />
+
+      <button type="submit" class="send-btn" title="Send message">
+        <ion-icon name="send-outline"></ion-icon>
+      </button>
+    </form>
+
+  </div>
+
+</main>
+
+<!-- SCRIPT -->
+<script src="/js/messages.js"></script>
+
+</body>
+</html>

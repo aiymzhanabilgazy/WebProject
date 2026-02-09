@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My posts</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-left">
+    <a href="/">← Back</a>
+  </div>
+
+  <div class="logo">
+    My posts
+  </div>
+
+  <div class="nav-right"></div>
+</header>
+
+<main class="my-posts-page">
+  <section class="pins" id="pinsContainer"></section>
+
+  <!-- EMPTY STATE -->
+  <div id="emptyState" class="empty-state" style="display:none;">
+    <h3>You haven’t created any posts yet</h3>
+    <p>Share your first idea or location ✨</p>
+    <a href="/" class="create-first-btn">Create your first post</a>
+  </div>
+</main>
+
+<script src="/js/renderPin.js"></script>
+<script src="/js/myPosts.js"></script>
+</body>
+</html>

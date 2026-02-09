@@ -1,16 +1,18 @@
 function renderPin(post, loggedUser) {
-  const isOwner =
+  const isOwnerOrAdmin =
     loggedUser &&
-    loggedUser._id &&
-    post.userId.toString() === loggedUser._id.toString();
+    (
+      post.userId === loggedUser._id ||
+      loggedUser.role === 'admin'
+    );
 
   const isLiked =
     loggedUser &&
-    post.likes?.some(id => id.toString() === loggedUser._id.toString());
+    post.likes?.includes(loggedUser._id);
 
   const isSaved =
     loggedUser &&
-    post.saved?.some(id => id.toString() === loggedUser._id.toString());
+    post.saved?.includes(loggedUser._id);
 
   return `
     <div class="pin polaroid" id="pin-${post._id}">
@@ -33,7 +35,7 @@ function renderPin(post, loggedUser) {
             onclick="toggleSave('${post._id}', this)">
           </ion-icon>
 
-          ${isOwner ? `
+          ${isOwnerOrAdmin ? `
             <ion-icon name="create-outline"
               onclick="editPost('${post._id}')"></ion-icon>
 

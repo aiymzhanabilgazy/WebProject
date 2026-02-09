@@ -1,3 +1,5 @@
+let editingPostId = null;
+
 document.addEventListener('DOMContentLoaded', () => {
   const openBtn = document.getElementById('openCreatePost');
   const overlay = document.getElementById('createOverlay');
@@ -7,13 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!openBtn || !overlay || !closeBtn || !submitBtn) return;
 
   openBtn.onclick = () => {
-    editingPostId = null;               // 🔥 ВАЖНО
-    submitBtn.textContent = 'Publish';  // 🔥
+    editingPostId = null;
+    submitBtn.textContent = 'Publish';
     overlay.style.display = 'flex';
   };
 
   closeBtn.onclick = () => {
-    editingPostId = null;               // 🔥
+    editingPostId = null;
     submitBtn.textContent = 'Publish';
     overlay.style.display = 'none';
   };
@@ -23,19 +25,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageUrl = document.getElementById('postImage').value.trim();
     const description = document.getElementById('postDescription').value.trim();
     const categoryInput = document.getElementById('postCategory');
-    const category = categoryInput ? categoryInput.value : undefined;
 
     if (!author || !imageUrl || !description) {
       alert('Fill all fields');
       return;
     }
 
-    const payload = { author, imageUrl, description };
-    if (category) payload.category = category;
+    const payload = {
+      author,
+      imageUrl,
+      description
+    };
 
-    // ======================
+    if (categoryInput) {
+      payload.category = categoryInput.value;
+    }
+
     // ✏️ EDIT MODE
-    // ======================
     if (editingPostId) {
       const res = await fetch(`/api/posts/${editingPostId}`, {
         method: 'PUT',
@@ -51,13 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       overlay.style.display = 'none';
       editingPostId = null;
-      location.reload(); // пока так, позже сделаем без reload
+      location.reload();
       return;
     }
 
-    // ======================
     // 🆕 CREATE MODE
-    // ======================
     const res = await fetch('/api/posts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

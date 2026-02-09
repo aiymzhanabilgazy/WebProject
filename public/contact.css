@@ -1,37 +1,84 @@
-/* Success page */
-.success-page {
-  background:wheat;
-  min-height: 100vh;
+/* CONTACT PAGE */
+.contact-page {
+  min-height: calc(100vh - 160px);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Arial, sans-serif;
+  background: #f4ece3;
+  padding: 40px 20px;
 }
 
-.success-box {
-  background: white;
-  padding: 30px;
-  max-width: 450px;
+.contact-card {
+  background: #fff;
   width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  max-width: 480px;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
 
-.success-box h2 {
-  color: #4CAF50;
-  margin-bottom: 15px;
+.contact-title {
+  font-size: 28px;
+  color: #8b1d2c;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
-.success-box p {
-  margin: 6px 0;
+/* FORM */
+.contact-form .field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
 }
 
-.success-box a {
-  display: inline-block;
+.contact-form label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  resize: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #8b1d2c;
+}
+
+/* BUTTONS */
+.contact-actions {
+  display: flex;
+  gap: 12px;
   margin-top: 20px;
-  text-decoration: none;
-  background: #4CAF50;
+}
+
+.btn-primary {
+  flex: 1;
+  background: #8b1d2c;
   color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #a32739;
+}
+
+.btn-secondary {
+  flex: 1;
+  background: transparent;
+  border: 1px solid #8b1d2c;
+  color: #8b1d2c;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
 }

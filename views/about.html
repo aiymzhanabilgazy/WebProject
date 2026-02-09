@@ -6,31 +6,44 @@
      <title>About InspireMe</title>
      <link rel="stylesheet" href="/style.css">
      <link rel="stylesheet" href="/about.css">
+     <link rel="stylesheet" href="/style.css">
+     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+
+
+     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 </head>
 <body>
     <!--header-->
     <header class="navbar">
         <div class="nav-left">
-            <a href="/" class="nav-icon" title="Home">
-                <ion-icon name="home-outline"></ion-icon>
-            </a>
-            <a href="/about">About</a>
+            <a href="/about" class="active">About</a>
             <a href="/contact">Contact</a>
+       </div>
+
+        <div class="logo">
+           Inspire Me | Creativity & locations
         </div>
 
-        <div class="logo">Inspire Me | Creativity & Locations</div>
-
         <div class="nav-right">
-            <div class="menu-dropdown">
-                <button class="dropbtn">Menu</button>
-                <div class="dropdown-content">
-                    <a href="/creativity">Creativity</a>
-                    <a href="#">Locations</a>
-                    <a href="#">Likes</a>
-                    <a href="#">Saved</a>
-                    <a href="#">Comments</a>
-                </div>
-            </div>
+             <a href="/" class="nav-icon" title="Home">
+                <ion-icon name="home-outline"></ion-icon>
+            </a>
+        <!-- LOGIN ICON -->
+            <a href="/auth" id="loginBtn" class="nav-icon" title="Login">
+                <i class="ph ph-fingerprint"></i>
+            </a>
+
+        <!-- PERSON ICON -->
+            <button id="userBtn" class="nav-icon user-icon" title="Profile" style="display:none;">
+               <ion-icon name="person-outline"></ion-icon>
+            </button>
+ 
+        <!-- direct message -->
+            <a href="/messages" class="nav-icon" title="Messages">
+               <ion-icon name="paper-plane-outline"></ion-icon>
+            </a>
         </div>
     </header>
 
@@ -76,7 +89,7 @@
             <div class="footer-links">
                 <a href="/">Home</a>
                 <a href="/about">About</a>
-                <a href="/creativitys">Creativity</a>
+                <a href="/creativity">Creativity</a>
                 <a href="#">Locations</a>
             </div>
 

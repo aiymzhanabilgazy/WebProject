@@ -24,8 +24,14 @@ async function loadAuth() {
    LOAD ALL POSTS (HOME)
 ===================== */
 async function loadHomePins() {
-  const res = await fetch('/api/posts');
-  const posts = await res.json(); // ✅ ТОЛЬКО посты
+  const res = await fetch('/api/posts', {
+    credentials: 'same-origin'
+  });
+
+  if (!res.ok) return;
+
+  const data = await res.json();
+  const posts = data.posts;
 
   const container = document.getElementById('pinsContainer');
   container.innerHTML = '';
@@ -34,6 +40,7 @@ async function loadHomePins() {
     container.innerHTML += renderPin(post, loggedUser);
   });
 }
+
 
 /* =====================
    DELETE
@@ -146,5 +153,3 @@ async function toggleSave(postId, icon) {
     showToast('❌ Removed from saved');
   }
 }
-
-
