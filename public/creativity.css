@@ -147,3 +147,22 @@ body {
         padding-top: 60px;
     }
 }
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0 30px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #111;
+  color: white;
+}

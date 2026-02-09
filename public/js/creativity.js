@@ -2,7 +2,7 @@ let loggedUser = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadAuth();
-  await loadCreativityPins(); // или loadCreativityPins / loadHomePins
+  await loadCreativityPins(); 
 });
 
 async function loadAuth() {
@@ -16,40 +16,12 @@ async function loadAuth() {
   }
 
   loggedUser = await res.json();
-  console.log('LOGGED USER:', loggedUser); // ← тут ДОЛЖЕН быть _id
+  console.log('LOGGED USER:', loggedUser); 
 }
 
 
-/* =====================
-   LOAD CREATIVITY POSTS
-===================== */
-async function loadCreativityPins() {
-  const res = await fetch('/api/posts', {
-    credentials: 'same-origin'
-  });
 
-  if (!res.ok) {
-    console.error('Failed to load posts');
-    return;
-  }
-
-  const data = await res.json();
-  const posts = data.posts; // 🔥 ВОТ ЭТО ГЛАВНОЕ
-
-  const container = document.getElementById('pinsContainer');
-  container.innerHTML = '';
-
-  posts
-    .filter(post => post.category === 'creativity')
-    .forEach(post => {
-      container.innerHTML += renderPin(post, loggedUser);
-    });
-}
-
-
-/* =====================
-   DELETE
-===================== */
+//delete
 async function deletePost(id) {
   const confirmDelete = confirm('Are you sure you want to delete this post?');
   if (!confirmDelete) return;
@@ -64,8 +36,6 @@ async function deletePost(id) {
       alert('Failed to delete post');
       return;
     }
-
-    // 🔥 Удаляем пин из DOM
     const pinElement = document.getElementById(`pin-${id}`);
     if (pinElement) {
       pinElement.remove();
@@ -160,3 +130,42 @@ async function toggleSave(postId, icon) {
     showToast('❌ Removed from saved');
   }
 }
+let allCreativityPosts = [];
+
+loadCreativityPins = async function () {
+  const res = await fetch('/api/posts', { credentials: 'same-origin' });
+  if (!res.ok) return;
+
+  const data = await res.json();
+
+
+  allCreativityPosts = data.posts.filter(
+    p => p.category === 'creativity'
+  );
+
+  renderCategory('all');
+};
+
+function renderCategory(type) {
+  const container = document.getElementById('pinsContainer');
+  container.innerHTML = '';
+
+  const filtered = type === 'all'
+    ? allCreativityPosts
+    : allCreativityPosts.filter(p => p.type === type);
+
+  filtered.forEach(post => {
+    container.innerHTML += renderPin(post, loggedUser);
+  });
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.classList.contains('filter-btn')) return;
+
+  document.querySelectorAll('.filter-btn')
+    .forEach(b => b.classList.remove('active'));
+
+  e.target.classList.add('active');
+
+  renderCategory(e.target.dataset.category);
+});

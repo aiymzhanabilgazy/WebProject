@@ -79,6 +79,10 @@ app.get('/admin', (req, res) => {
 app.get('/messages', (req, res) =>
   res.sendFile(path.join(__dirname, 'views', 'messages.html'))
 );
+app.get('/admin-user', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin-user.html'));
+});
+
 
 
 

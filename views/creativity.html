@@ -9,45 +9,25 @@
   <link rel="stylesheet" href="/creativity.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
 
-
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-
-  
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="nav-left">
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-       </div>
+<header class="navbar">
+  <div class="nav-left">
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+  </div>
 
-        <div class="logo">
-           Inspire Me | Creativity & locations
-        </div>
+  <div class="logo">Inspire Me | Creativity & locations</div>
 
-        <div class="nav-right">
-             <a href="/" class="nav-icon" title="Home">
-                <ion-icon name="home-outline"></ion-icon>
-            </a>
-        <!-- LOGIN ICON -->
-            <a href="/auth" id="loginBtn" class="nav-icon" title="Login">
-                <i class="ph ph-fingerprint"></i>
-            </a>
-
-        <!-- PERSON ICON -->
-            <button id="userBtn" class="nav-icon user-icon" title="Profile" style="display:none;">
-               <ion-icon name="person-outline"></ion-icon>
-            </button>
- 
-        <!-- direct message -->
-            <a href="/messages" class="nav-icon" title="Messages">
-               <ion-icon name="paper-plane-outline"></ion-icon>
-            </a>
-        </div>
-    </header>
+  <div class="nav-right">
+    <a href="/" class="nav-icon"><ion-icon name="home-outline"></ion-icon></a>
+    <a href="/auth" class="nav-icon"><i class="ph ph-fingerprint"></i></a>
+    <a href="/messages" class="nav-icon"><ion-icon name="paper-plane-outline"></ion-icon></a>
+  </div>
+</header>
 
 <main>
 
@@ -56,39 +36,46 @@
   <p>Ideas, art & inspiration</p>
 </section>
 
-<!-- CREATE -->
-<div class="create-post-container">
-  <button id="openCreatePost" class="create-post-btn">+ Add creativity</button>
+<div class="filter-bar">
+  <button class="filter-btn active" data-category="all">All</button>
+  <button class="filter-btn" data-category="startup">Startup</button>
+  <button class="filter-btn" data-category="hobby">Hobby</button>
+  <button class="filter-btn" data-category="projects">Projects</button>
 </div>
 
-<!-- OVERLAY -->
+<!-- CREATE -->
+<div class="create-post-container">
+  <button id="openCreatePost" class="create-post-btn">+ Add post</button>
+</div>
+
+<!-- MODAL -->
 <div id="createOverlay" class="create-overlay">
   <div class="create-modal">
     <button id="closeCreate" class="close-btn">✕</button>
 
-    <h2>Create creativity post</h2>
+    <h2>Create post</h2>
 
     <input id="postAuthor" placeholder="Your name" />
     <input id="postImage" placeholder="Image URL" />
     <textarea id="postDescription" placeholder="Description"></textarea>
 
-    <input type="hidden" id="postCategory" value="creativity">
+    <select id="postType">
+      <option value="startup">Startup</option>
+      <option value="hobby">Hobby</option>
+      <option value="projects">Projects</option>
+    </select>
 
     <button id="submitPost" class="publish-btn">Publish</button>
   </div>
 </div>
 
-
-
-<!-- PINS -->
 <section class="pins" id="pinsContainer"></section>
 
 </main>
 
 <script src="/js/renderPin.js"></script>
-<script src="/js/creativity.js"></script>
 <script src="/js/createPost.js"></script>
-
+<script src="/js/creativity.js"></script>
 
 </body>
 </html>

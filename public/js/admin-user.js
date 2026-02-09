@@ -1,76 +1,77 @@
-const params = new URLSearchParams(window.location.search);
-const userId = params.get('id');
+const router = require('express').Router();
+const { getDB } = require('../configuration/db');
+const { ObjectId } = require('mongodb');
+const isAuthenticated = require('../middleware/isAuthenticated');
+const requireAdmin = require('../middleware/requireAdmin');
 
-if (!userId) {
-  alert('User not found');
-  location.href = '/admin';
-}
+// GET ALL USERS
+router.get('/users', isAuthenticated, requireAdmin, async (req, res) => {
+  const db = getDB();
 
-async function loadUserAndPosts() {
-  const res = await fetch(`/api/admin/users/${userId}`, {
-    credentials: 'same-origin'
-  });
+  const users = await db
+    .collection('users')
+    .find({}, { projection: { password: 0 } })
+    .toArray();
 
-  if (!res.ok) {
-    alert('Access denied');
-    location.href = '/admin';
-    return;
+  res.json(users);
+});
+
+// GET ONE USER + POSTS + LIKES + SAVED
+router.get('/users/:id', isAuthenticated, requireAdmin, async (req, res) => {
+  const db = getDB();
+  const userId = req.params.id;
+
+  const user = await db.collection('users').findOne(
+    { _id: new ObjectId(userId) },
+    { projection: { password: 0 } }
+  );
+
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });
   }
 
-  const { user, posts } = await res.json();
+  const posts = await db.collection('posts')
+    .find({ userId })
+    .sort({ createdAt: -1 })
+    .toArray();
 
-  renderUser(user);
-  renderPosts(posts);
-}
+  const likedPosts = await db.collection('posts')
+    .find({ likes: userId })
+    .toArray();
 
-// 👤 USER INFO
-function renderUser(user) {
-  const container = document.getElementById('userInfo');
+  const savedPosts = await db.collection('posts')
+    .find({ saved: userId })
+    .toArray();
 
-  const name =
-    user.name ||
-    user.email?.split('@')[0] ||
-    'User';
-
-  container.innerHTML = `
-    <div class="profile-card">
-      <div class="profile-avatar">
-        ${name.charAt(0).toUpperCase()}
-      </div>
-
-      <div class="profile-info">
-        <h2>${name}</h2>
-        <p>${user.email || ''}</p>
-        <span class="role-badge ${user.role}">
-          ${user.role}
-        </span>
-      </div>
-    </div>
-  `;
-}
-
-// 📌 POSTS
-function renderPosts(posts) {
-  const container = document.getElementById('userPosts');
-  container.innerHTML = '';
-
-  if (!posts || posts.length === 0) {
-    container.innerHTML = `<p class="empty">No posts yet</p>`;
-    return;
-  }
-
-  posts.forEach(post => {
-    container.innerHTML += `
-      <div class="post-card">
-        ${post.imageUrl ? `<img src="${post.imageUrl}" />` : ''}
-
-        <div class="post-body">
-          <p>${post.description}</p>
-          <small>${post.category || ''}</small>
-        </div>
-      </div>
-    `;
+  res.json({
+    user,
+    posts,
+    likedPosts,
+    savedPosts
   });
-}
+});
 
-loadUserAndPosts();
+// UPDATE USER ROLE
+router.patch('/users/:id/role', isAuthenticated, requireAdmin, async (req, res) => {
+  const db = getDB();
+
+  await db.collection('users').updateOne(
+    { _id: new ObjectId(req.params.id) },
+    { $set: { role: req.body.role } }
+  );
+
+  res.json({ message: 'Role updated' });
+});
+
+// DELETE USER
+router.delete('/users/:id', isAuthenticated, requireAdmin, async (req, res) => {
+  const db = getDB();
+
+  await db.collection('users').deleteOne({
+    _id: new ObjectId(req.params.id)
+  });
+
+  res.sendStatus(204);
+});
+
+module.exports = router;

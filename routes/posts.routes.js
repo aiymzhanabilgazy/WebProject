@@ -25,7 +25,7 @@ router.get('/saved', isAuthenticated, async (req, res) => {
   const userId = req.session.userId;
 
   const posts = await db.collection('posts')
-    .find({ saved: userId }) // ✅ ВАЖНО
+    .find({ saved: userId }) 
     .toArray();
 
   res.json(posts);

@@ -44,9 +44,9 @@ async function loadUsers() {
   });
 }
 
-// 🔥 ВАЖНО: функция в глобальной области
 function openUser(userId) {
-  window.location.href = `/admin-user.html?id=${userId}`;
+  window.location.href = `/admin-user?id=${userId}`;
 }
+
 
 loadUsers();

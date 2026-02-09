@@ -1,5 +1,5 @@
-let visibleCount = 6;   // сколько пинов показываем сначала
-let allPins = [];      // все пины (кэш)
+let visibleCount = 10; 
+let allPins = [];    
 let loggedUser = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -21,10 +21,6 @@ async function loadAuth() {
   console.log('LOGGED USER:', loggedUser); 
 }
 
-
-/* =====================
-   LOAD ALL POSTS (HOME)
-===================== */
 async function loadHomePins() {
   const res = await fetch('/api/posts', {
     credentials: 'same-origin'
@@ -38,15 +34,11 @@ async function loadHomePins() {
   const container = document.getElementById('pinsContainer');
   container.innerHTML = '';
 
-  allPins = posts;        // сохраняем все пины 
-  renderVisiblePins();    // показываем часть
+  allPins = posts;    
+  renderVisiblePins(); 
 
 }
 
-
-/* =====================
-   DELETE
-===================== */
 async function deletePost(id) {
   const confirmDelete = confirm('Are you sure you want to delete this post?');
   if (!confirmDelete) return;
@@ -62,7 +54,6 @@ async function deletePost(id) {
       return;
     }
 
-    // 🔥 Удаляем пин из DOM
     const pinElement = document.getElementById(`pin-${id}`);
     if (pinElement) {
       pinElement.remove();

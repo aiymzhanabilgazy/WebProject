@@ -5,12 +5,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadLikedPins();
 });
 
-/* =====================
-   AUTH
-===================== */
 async function loadAuth() {
   const res = await fetch('/auth/me', {
-    credentials: 'same-origin' // 🔥 ОБЯЗАТЕЛЬНО
+    credentials: 'same-origin' 
   });
 
   if (!res.ok) {
@@ -23,12 +20,9 @@ async function loadAuth() {
   console.log('LOGGED USER:', loggedUser);
 }
 
-/* =====================
-   LOAD LIKED POSTS
-===================== */
 async function loadLikedPins() {
   const res = await fetch('/api/posts/liked', {
-    credentials: 'same-origin' // 🔥 ВОТ ЭТОГО НЕ ХВАТАЛО
+    credentials: 'same-origin' 
   });
 
   if (!res.ok) {

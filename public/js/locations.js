@@ -2,7 +2,7 @@ let loggedUser = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadAuth();
-  await loadLocationPins(); // или loadCreativityPins / loadHomePins
+  await loadLocationPins();
 });
 
 async function loadAuth() {
@@ -16,13 +16,10 @@ async function loadAuth() {
   }
 
   loggedUser = await res.json();
-  console.log('LOGGED USER:', loggedUser); // ← тут ДОЛЖЕН быть _id
+  console.log('LOGGED USER:', loggedUser);
 }
 
 
-/* =====================
-   LOAD LOCATIONS POSTS
-===================== */
 async function loadLocationPins() {
   const res = await fetch('/api/posts', {
     credentials: 'same-origin'
@@ -34,7 +31,7 @@ async function loadLocationPins() {
   }
 
   const data = await res.json();
-  const posts = data.posts; // 🔥 ВОТ ЭТО ГЛАВНОЕ
+  const posts = data.posts; 
 
   const container = document.getElementById('pinsContainer');
   container.innerHTML = '';
@@ -46,10 +43,6 @@ async function loadLocationPins() {
     });
 }
 
-
-/* =====================
-   DELETE
-===================== */
 async function deletePost(id) {
   const confirmDelete = confirm('Are you sure you want to delete this post?');
   if (!confirmDelete) return;
@@ -65,7 +58,7 @@ async function deletePost(id) {
       return;
     }
 
-    // 🔥 Удаляем пин из DOM
+  
     const pinElement = document.getElementById(`pin-${id}`);
     if (pinElement) {
       pinElement.remove();
