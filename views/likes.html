@@ -1,57 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>About InspireMe</title>
-     <link rel="stylesheet" href="/style.css">
-     <link rel="stylesheet" href="/about.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liked Pins • InspireMe</title>
+
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/likes.css">
+
+  <!-- Icons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/regular/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
+
 <body>
-    <!--header-->
-    <header class="navbar">
-        <div class="nav-left">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
+<div class="page-container">
+
+  <!-- navbar -->
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+
+    <div class="logo">
+      Inspire Me | Creativity & Locations
+    </div>
+
+    <div class="nav-right">
+      <a href="/" class="nav-icon" title="Home">
+        <ion-icon name="home-outline"></ion-icon>
+      </a>
+
+      <!-- login-->
+      <a href="/auth" id="loginBtn" class="nav-icon" title="Login">
+        <i class="ph ph-fingerprint"></i>
+      </a>
+
+      <!-- profile -->
+      <button id="userBtn" class="nav-icon user-icon" title="Profile" style="display:none;">
+        <ion-icon name="person-outline"></ion-icon>
+      </button>
+
+      <!-- messages -->
+      <a href="/messages" class="nav-icon" title="Messages">
+        <ion-icon name="paper-plane-outline"></ion-icon>
+      </a>
+    </div>
+  </header>
+
+  <!-- main -->
+  <main class="likes-page">
+
+    <!-- banner -->
+    <section class="likes-banner">
+      <div class="likes-banner-content">
+        <h1>Liked Pins</h1>
+        <p>
+          A personal collection of places,<br>
+          moods & creative moments you loved.
+        </p>
+      </div>
+
+      <div class="likes-banner-decor">
+        <span>❤️</span>
+        <span>📍</span>
+        <span>✨</span>
+      </div>
+    </section>
+
+    <!-- pins -->
+    <section class="pins-grid" id="pinsContainer"></section>
+
+  </main>
+
+  <!-- user panel -->
+  <div id="userPanel" class="user-panel">
+    <div class="user-panel-content">
+
+      <div class="panel-header">
+        <button id="closePanel" class="close-panel-btn">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="panel-scroll">
+        <div class="panel-user">
+          <div class="avatar" id="panelAvatar">?</div>
+          <div class="user-info">
+            <span class="user-name" id="panelUserName">User</span>
+            <span class="user-email" id="panelUserEmail">email@gmail.com</span>
+          </div>
         </div>
 
-        <div class="logo">Inspire Me | Creativity & Locations</div>
+        <a href="/my-posts" class="panel-link">
+          <ion-icon name="images-outline"></ion-icon>
+          <span>My posts</span>
+        </a>
 
-        <div class="nav-right">
-            <div class="menu-dropdown">
-                <button class="dropbtn">Menu</button>
-                <div class="dropdown-content">
-                    <a href="/likes">Likes</a>
-                    <a href="#">Saved</a>
-                </div>
-            </div>
-        </div>
-    </header>
-    
-    <h1>❤️ Liked Pins</h1>
-    <section class="pins" id="pinsContainer"></section>
+        <a href="/likes" class="panel-link">
+          <ion-icon name="heart-outline"></ion-icon>
+          <span>Likes</span>
+          <span class="count" id="likesCount">0</span>
+        </a>
 
-   
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p class="footer-title">Inspire Me ✧ Creativity & Locations</p>
+        <a href="/saved" class="panel-link">
+          <ion-icon name="bookmark-outline"></ion-icon>
+          <span>Saved</span>
+          <span class="count" id="savedCount">0</span>
+        </a>
 
-            <div class="footer-links">
-                <a href="/">Home</a>
-                <a href="/about">About</a>
-                <a href="/creativity">Creativity</a>
-                <a href="/locations">Locations</a>
-            </div>
+        <a href="/admin" class="panel-link admin-only" style="display:none">
+          <ion-icon name="shield-outline"></ion-icon>
+          <span>Admin panel</span>
+        </a>
 
-            <p class="footer-credit">© 2025 InspireMe. Designed with ♡</p>
-        </div>
-    </footer>
-    
-    <script src="/js/renderPin.js"></script>
-    <script src="/js/likes.js"></script>
+        <a href="/privacy" class="panel-link">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <span>Privacy</span>
+        </a>
+      </div>
 
+      <div class="panel-footer">
+        <button id="logoutBtn" class="logout-btn">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p class="footer-title">Inspire Me ✧ Creativity & Locations</p>
+
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/creativity">Creativity</a>
+        <a href="/locations">Locations</a>
+      </div>
+
+      <p class="footer-credit">© 2025 InspireMe. Designed with ♡</p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- scripts-->
+<script src="/js/renderPin.js"></script>
+<script src="/js/likes.js"></script>
+
+<script>
+
+const loginBtn = document.getElementById('loginBtn');
+const userBtn = document.getElementById('userBtn');
+const userPanel = document.getElementById('userPanel');
+const logoutBtn = document.getElementById('logoutBtn');
+const closePanelBtn = document.getElementById('closePanel');
+
+async function loadUserPanel() {
+  const res = await fetch('/auth/me', { credentials: 'same-origin' });
+  if (!res.ok) return;
+
+  const user = await res.json();
+  const name = user.name || user.email?.split('@')[0] || 'User';
+
+  panelUserName.textContent = name;
+  panelUserEmail.textContent = user.email || '';
+  panelAvatar.textContent = name.charAt(0).toUpperCase();
+
+  if (user.role === 'admin') {
+    document.querySelectorAll('.admin-only')
+      .forEach(el => el.style.display = 'flex');
+  }
+}
+
+async function loadCounts() {
+  const likes = await fetch('/api/posts/liked', { credentials: 'same-origin' });
+  if (likes.ok) likesCount.textContent = (await likes.json()).length;
+
+  const saved = await fetch('/api/posts/saved', { credentials: 'same-origin' });
+  if (saved.ok) savedCount.textContent = (await saved.json()).length;
+}
+
+async function checkAuth() {
+  const res = await fetch('/auth/me', { credentials: 'same-origin' });
+
+  if (res.ok) {
+    loginBtn.style.display = 'none';
+    userBtn.style.display = 'inline-flex';
+    loadUserPanel();
+    loadCounts();
+  } else {
+    loginBtn.style.display = 'inline-flex';
+    userBtn.style.display = 'none';
+  }
+}
+
+userBtn.addEventListener('click', () => userPanel.classList.toggle('open'));
+closePanelBtn.addEventListener('click', () => userPanel.classList.remove('open'));
+
+document.addEventListener('click', (e) => {
+  if (
+    userPanel.classList.contains('open') &&
+    !userPanel.contains(e.target) &&
+    !userBtn.contains(e.target)
+  ) {
+    userPanel.classList.remove('open');
+  }
+});
+
+logoutBtn.addEventListener('click', async () => {
+  await fetch('/auth/logout', { method: 'POST', credentials: 'same-origin' });
+  window.location.href = '/';
+});
+
+checkAuth();
+</script>
 
 </body>
 </html>

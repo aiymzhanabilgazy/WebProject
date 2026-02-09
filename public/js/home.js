@@ -1,8 +1,10 @@
+let visibleCount = 6;   // сколько пинов показываем сначала
+let allPins = [];      // все пины (кэш)
 let loggedUser = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadAuth();
-  await loadHomePins(); // или loadCreativityPins / loadHomePins
+  await loadHomePins(); 
 });
 
 async function loadAuth() {
@@ -16,7 +18,7 @@ async function loadAuth() {
   }
 
   loggedUser = await res.json();
-  console.log('LOGGED USER:', loggedUser); // ← тут ДОЛЖЕН быть _id
+  console.log('LOGGED USER:', loggedUser); 
 }
 
 
@@ -36,9 +38,9 @@ async function loadHomePins() {
   const container = document.getElementById('pinsContainer');
   container.innerHTML = '';
 
-  posts.forEach(post => {
-    container.innerHTML += renderPin(post, loggedUser);
-  });
+  allPins = posts;        // сохраняем все пины 
+  renderVisiblePins();    // показываем часть
+
 }
 
 
@@ -70,6 +72,9 @@ async function deletePost(id) {
     console.error(err);
     alert('Error while deleting post');
   }
+  allPins = allPins.filter(p => p._id !== id);
+  renderVisiblePins();
+
 }
 
 
@@ -153,3 +158,32 @@ async function toggleSave(postId, icon) {
     showToast('❌ Removed from saved');
   }
 }
+function renderVisiblePins() {
+  const container = document.getElementById('pinsContainer');
+  container.innerHTML = '';
+
+  const pinsToShow = allPins.slice(0, visibleCount);
+
+  pinsToShow.forEach(post => {
+    container.innerHTML += renderPin(post, loggedUser);
+  });
+
+  const showMoreBtn = document.getElementById('showMoreBtn');
+
+  if (visibleCount >= allPins.length) {
+    showMoreBtn.style.display = 'none';
+  } else {
+    showMoreBtn.style.display = 'inline-block';
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const showMoreBtn = document.getElementById('showMoreBtn');
+
+  if (showMoreBtn) {
+    showMoreBtn.addEventListener('click', () => {
+      visibleCount += 6;
+      renderVisiblePins();
+    });
+  }
+});
+

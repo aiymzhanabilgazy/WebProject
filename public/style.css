@@ -524,13 +524,22 @@ body {
   box-shadow:
     0 10px 30px rgba(0,0,0,0.08),
     0 2px 6px rgba(0,0,0,0.05);
-  transition: transform .2s ease, box-shadow .2s ease;
+
+  transform: scale(1); 
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  will-change: transform;
 }
+
 .pin.polaroid:hover {
-  transform: translateY(-4px);
+  transform: scale(1.08); 
   box-shadow:
-    0 16px 40px rgba(0,0,0,0.12);
+    0 28px 70px rgba(0,0,0,0.18);
+  z-index: 2;
 }
+
 .pin-info {
   margin-top: 10px;
 }
@@ -561,10 +570,6 @@ body {
   color: red;
 }
 
-
-
-
-/* ========================= */
 /* SHOW MORE */
 
 .show-more-container {
@@ -588,9 +593,7 @@ body {
     background: #6B000D;
 }
 
-/* ========================= */
 /* CONTACT */
-
 .contact {
     max-width: 520px;
     margin: 90px auto;
@@ -604,7 +607,6 @@ body {
     text-align: center;
     color: #A30015;
 }
-/* ========================= */
 /* Side-Panel */
 /* ===== PANEL CONTAINER ===== */
 .user-panel {
@@ -764,7 +766,7 @@ body {
   opacity: 0.9;
 }
 
-/* ===== FOOTER ===== */
+
 .panel-footer {
   margin-top: auto;
   padding: 20px;
@@ -791,10 +793,7 @@ body {
   background: #6b000d;
 }
 
-
-/* ========================= */
 /* FOOTER */
-
 .footer {
     background: #F0E6E0;
     padding:8px 8px;

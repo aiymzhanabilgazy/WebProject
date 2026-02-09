@@ -110,8 +110,9 @@
 
         <!--show more button-->
         <div class="show-more-container">
-            <button class="show-more">SHOW MORE</button>
+          <button class="show-more" id="showMoreBtn">SHOW MORE</button>
         </div>
+
     </main>
 
     <div id="userPanel" class="user-panel">
@@ -183,9 +184,7 @@
         </div>
     </footer>
 <script>
-/* =========================
-   LOGIN / LOGOUT UI (simple)
-========================== */
+/* LOGIN / LOGOUT UI (simple)*/
 const loginBtn = document.getElementById('loginBtn');
 const userBtn = document.getElementById('userBtn');
 const createBtn = document.getElementById('openCreatePost');
@@ -213,7 +212,6 @@ async function loadUserPanel() {
     document.getElementById('panelAvatar').textContent =
       name.charAt(0).toUpperCase();
 
-    // ✅ ПРОВЕРКА АДМИНА — ТУТ, А НЕ СНАРУЖИ
     if (user.role === 'admin') {
       document
         .querySelectorAll('.admin-only')
@@ -264,12 +262,11 @@ async function loadCounts() {
 
 
 
-// открыть / закрыть панель
+// open/close panel
 userBtn.addEventListener('click', () => {
   userPanel.classList.toggle('open');
 });
 
-// клик вне панели — закрыть
 document.addEventListener('click', (e) => {
   if (
     userPanel.classList.contains('open') &&
@@ -299,9 +296,7 @@ closePanelBtn.addEventListener('click', () => {
 
 checkAuth();
 
-/* =========================
-   LOAD POSTS (public)
-========================== */
+/* load public post */
 const container = document.getElementById('pinsContainer');
 
 </script>

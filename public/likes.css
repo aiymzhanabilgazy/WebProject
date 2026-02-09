@@ -1,0 +1,107 @@
+
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.likes-page {
+  flex: 1;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 70px 32px 90px;
+  text-align: center;
+}
+
+/* hero section */
+.likes-hero {
+  max-width: 700px;     
+  margin: 0 auto 60px;
+  text-align: center;
+}
+
+.likes-icon {
+  font-size: 36px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.likes-hero h1 {
+  font-size: 42px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.likes-hero p {
+  margin: 0 auto;
+  max-width: 520px;
+}
+
+/* pins grid */
+.pins-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 36px;
+  overflow: visible;
+}
+
+/* pin card */
+.pin.polaroid {
+  background: #fff;
+  border-radius: 22px;
+  overflow: hidden;
+
+  transform: scale(1);
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  will-change: transform;
+}
+
+.pin.polaroid:hover {
+  transform: scale(1.08);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.18);
+  z-index: 2;
+}
+
+
+
+
+/* pin image */
+.pin-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.likes-empty {
+  text-align: center;
+  margin-top: 100px;
+  color: #9a9a9a;
+}
+
+.likes-empty h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.likes-empty p {
+  font-size: 15px;
+}
+/* responsive */
+@media (max-width: 768px) {
+  .likes-page {
+    padding: 50px 20px 80px;
+  }
+
+  .likes-hero h1 {
+    font-size: 34px;
+  }
+
+  .pins-grid {
+    gap: 24px;
+  }
+}

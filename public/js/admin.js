@@ -21,7 +21,7 @@ async function loadUsers() {
     const role = user.role || 'user';
 
     container.innerHTML += `
-      <div class="user-card">
+      <div class="user-card" onclick="openUser('${user._id}')">
         <div class="user-avatar">
           ${name.charAt(0).toUpperCase()}
         </div>
@@ -33,13 +33,20 @@ async function loadUsers() {
 
         <div class="user-role ${role}">
           <ion-icon name="${
-            role === 'admin' ? 'shield-checkmark' : 'person-outline'
+            role === 'admin'
+              ? 'shield-checkmark-outline'
+              : 'person-outline'
           }"></ion-icon>
           ${role}
         </div>
       </div>
     `;
   });
+}
+
+// 🔥 ВАЖНО: функция в глобальной области
+function openUser(userId) {
+  window.location.href = `/admin-user.html?id=${userId}`;
 }
 
 loadUsers();
